@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Affordable Housing & Income Map App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root {
+  --bg: #0a0c0b; --surface: #111513; --surface-2: #181d1a;
+  --line: rgba(236,242,237,.09); --fg: #eef2ee; --muted: #98a39b;
+  --accent: #2be46a; --accent-ink: #04170b;
+  --head: "DM Sans", system-ui, sans-serif; --body: "Inter", system-ui, sans-serif; --mono: "DM Mono", ui-monospace, Menlo, monospace;
+  --pw: 220px; --lw: 190px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--bg); padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 400 16px/1.6 var(--body); -webkit-font-smoothing: antialiased; position: relative; overflow-x: clip;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 40px; }
+body::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 700px; background: radial-gradient(circle 420px at 88% 160px, rgba(43,228,106,.14), transparent 70%); z-index: -1; pointer-events: none; }
+a { color: inherit; text-decoration: none; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1120px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--head); margin: 0; text-wrap: balance; letter-spacing: -0.02em; }
+.g { color: var(--accent); }
+nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0; flex-wrap: wrap; }
+.logo { font: 700 18px var(--head); display: flex; align-items: center; gap: 10px; }
+.logo i { width: 10px; height: 10px; border-radius: 3px; background: var(--accent); box-shadow: 0 0 14px var(--accent); }
+nav ul { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; font-size: 14px; color: var(--muted); }
+nav ul a:hover { color: var(--fg); }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 999px; font: 500 14px var(--body); border: 1px solid var(--line); background: var(--surface); transition: border-color .2s; }
+.btn:hover { border-color: rgba(236,242,237,.3); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; box-shadow: 0 0 24px rgba(43,228,106,.25); }
+.btn.sm { padding: 9px 18px; font-size: 13px; }
+
+.back { display: inline-flex; gap: 8px; font: 400 12px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-top: 18px; }
+.back:hover { color: var(--accent); }
+.head { padding: 28px 0 40px; }
+.pill { display: inline-block; font: 500 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(43,228,106,.4); border-radius: 999px; padding: 6px 14px; margin: 0 0 20px; background: rgba(43,228,106,.06); }
+.head h1 { font-size: clamp(38px, 6.4vw, 72px); line-height: 1.04; max-width: 16ch; }
+.head p.lede { max-width: 58ch; color: var(--muted); font-size: 18px; margin: 24px 0 0; }
+.cover { border-radius: 20px; overflow: hidden; border: 1px solid var(--line); background: var(--surface-2); }
+.cover img { display: block; width: 100%; height: auto; }
+.meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 28px; border: 1px solid var(--line); border-radius: 16px; background: rgba(17,21,19,.8); }
+.meta div { padding: 18px 22px; border-right: 1px solid var(--line); }
+.meta div:last-child { border-right: 0; }
+.meta small { display: block; font: 400 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.meta b { font-weight: 500; font-size: 15px; }
+
+section { padding: 80px 0 0; }
+.sec-head { margin-bottom: 30px; max-width: 60ch; }
+.sec-head h2 { font-size: clamp(28px, 4vw, 44px); line-height: 1.08; }
+.sec-head p { margin: 12px 0 0; color: var(--muted); }
+
+.brief { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+.cell { padding: 28px 28px 8px 0; }
+.cell + .cell { padding-left: 28px; border-left: 1px solid var(--line); }
+.cell .n { font: 400 12px var(--mono); color: var(--accent); letter-spacing: .08em; }
+.cell h3 { font-size: 26px; margin: 8px 0 14px; }
+.cell ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.cell li { color: var(--muted); font-size: 15.5px; padding-left: 18px; position: relative; }
+.cell li::before { content: ""; position: absolute; left: 0; top: .6em; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); }
+.note { font: 400 12px var(--mono); color: var(--muted); margin-top: 16px; }
+.users { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.users span { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 8px 18px; font-size: 15px; }
+
+.flowhead { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
+.flowhead h3 { font-size: 28px; }
+.flowhead span { font: 400 12px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 26px; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 26px 26px 30px; min-width: 0; overflow: hidden; }
+.step .k { font: 400 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
+.step h3 { font-size: 22px; margin-bottom: 22px; }
+.fig { overflow-x: auto; padding: 6px 0 4px; }
+.ph { position: relative; width: var(--pw); margin-right: calc(var(--lw) + 44px); }
+.shot { position: relative; }
+.labs { position: absolute; left: calc(100% + 44px); top: 0; bottom: 0; width: var(--lw); }
+.ph img { display: block; width: 100%; height: auto; border-radius: 26px; border: 1px solid rgba(236,242,237,.2); box-shadow: 0 20px 40px rgba(0,0,0,.4); }
+.lead { position: absolute; left: var(--x); top: var(--y); width: calc(100% - var(--x) + 36px); border-top: 1.5px dashed rgba(43,228,106,.8); z-index: 1; }
+.pin { position: absolute; left: var(--x); top: var(--y); width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font: 500 10px/16px var(--mono); text-align: center; z-index: 2; box-shadow: 0 0 0 3px rgba(43,228,106,.25); }
+.lab { position: absolute; left: 0; top: var(--y); transform: translateY(-50%); width: var(--lw); font-size: 13px; line-height: 1.35; color: var(--fg); display: flex; gap: 8px; align-items: baseline; }
+.lab b { font: 500 11px var(--mono); color: var(--accent); flex: none; }
+
+.build { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 36px; align-items: start; border-top: 1px solid var(--line); padding-top: 30px; }
+.build p { margin: 0 0 14px; color: var(--muted); font-size: 16px; max-width: 54ch; }
+.tools { display: flex; flex-wrap: wrap; gap: 8px; }
+.tools span { font: 400 12px var(--mono); border: 1px solid rgba(43,228,106,.4); color: var(--accent); background: rgba(43,228,106,.06); border-radius: 999px; padding: 6px 14px; }
+.links { display: grid; }
+.links a { display: flex; justify-content: space-between; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.links a span { color: var(--accent); }
+.links a:first-child { border-top: 1px solid var(--line); }
+.links a:hover { color: var(--accent); }
+
+.next { margin-top: 90px; background: rgba(17,21,19,.85); border: 1px solid var(--line); border-radius: 22px; padding: 36px 40px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+.next h2 { font-size: clamp(26px, 3.6vw, 40px); line-height: 1.1; max-width: 18ch; }
+.next .acts { display: flex; gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 1000px) {
+  .steps { grid-template-columns: minmax(0, 1fr); }
+  .brief { grid-template-columns: minmax(0, 1fr); }
+  .cell, .cell + .cell { padding: 24px 0 8px; border-left: 0; border-bottom: 1px solid var(--line); }
+  .build { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 700px) {
+  nav ul { display: none; }
+  .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .meta div:nth-child(2) { border-right: 0; }
+  .meta div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  :root { --pw: 210px; }
+  .step { padding: 22px 18px 26px; }
+  .ph { width: auto; margin-right: 0; display: flex; flex-direction: column; gap: 18px; }
+  .shot { width: var(--pw); }
+  .labs { position: static; width: auto; display: grid; gap: 8px; }
+  .lab { position: static; transform: none; width: auto; font-size: 14px; }
+  .lead { display: none; }
+  .next { padding: 28px 24px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } html { scroll-behavior: auto; } }
+
+.cell h3 { font-size: 24px; }
+.cell li b { color: var(--fg); font-weight: 500; }
+.ucards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 26px; }
+.ucard { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px 22px 24px; }
+.ucard h3 { font-size: 19px; margin-bottom: 8px; }
+.ucard p { margin: 0; color: var(--muted); font-size: 15px; }
+.rs { margin: 0; max-width: 62ch; color: var(--muted); font-size: 17px; }
+.persona-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+.persona { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 26px; }
+.persona .top { display: flex; gap: 16px; align-items: center; margin-bottom: 18px; }
+.persona .av { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: rgba(43,228,106,.1); border: 1px solid rgba(43,228,106,.4); color: var(--accent); font: 700 20px var(--head); flex: none; }
+.persona h3 { font-size: 24px; }
+.persona .facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+.persona .facts span { font: 400 12px var(--mono); color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; }
+.persona p { margin: 0; font-size: 17px; line-height: 1.5; }
+.flowbox { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 34px 30px; }
+.fl-row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 0; }
+.fn { border: 1px solid var(--line); background: var(--surface-2); border-radius: 12px; padding: 12px 16px; font-size: 14px; line-height: 1.3; max-width: 190px; }
+.fn.start { border-radius: 999px; background: rgba(43,228,106,.1); border-color: rgba(43,228,106,.5); color: var(--fg); }
+.fn.dec { border-style: dashed; border-color: rgba(236,242,237,.3); }
+.fn.step { border-color: rgba(43,228,106,.35); }
+.fn.ghost { border-style: dashed; color: var(--muted); }
+.ar { width: 28px; height: 1px; background: rgba(43,228,106,.7); position: relative; margin: 0 6px; flex: none; }
+.ar::after { content: ""; position: absolute; right: 0; top: -3px; width: 6px; height: 6px; border-top: 1px solid rgba(43,228,106,.9); border-right: 1px solid rgba(43,228,106,.9); transform: rotate(45deg); }
+.fl-lab { font: 400 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+.fl-branch { margin-top: 26px; padding-top: 22px; border-top: 1px dashed var(--line); }
+.gal { display: grid; gap: 22px; }
+.gal.ph-grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+.gal.lp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.gal figure { margin: 0; }
+.gal img { display: block; width: 100%; height: auto; }
+.gal.ph-grid img { filter: drop-shadow(0 18px 26px rgba(0,0,0,.45)); }
+.gal.lp-grid figure.wide { grid-column: 1 / -1; }
+.gal figcaption { font: 400 11px var(--mono); color: var(--muted); letter-spacing: .06em; margin-top: 10px; }
+.stage-card { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 30px; }
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; border-top: 1px solid var(--line); padding-top: 30px; }
+.two ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.two li { color: var(--muted); font-size: 15.5px; padding-left: 18px; position: relative; }
+.two li::before { content: ""; position: absolute; left: 0; top: .6em; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); }
+.two h3 { font-size: 22px; margin-bottom: 14px; }
+@media (max-width: 1000px) { .two { grid-template-columns: minmax(0,1fr); gap: 28px; } }
+@media (max-width: 700px) {
+  .gal.lp-grid { grid-template-columns: minmax(0,1fr); }
+  .gal.ph-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+  .flowbox { padding: 24px 18px; }
+  .fl-row { flex-direction: column; align-items: flex-start; gap: 0; }
+  .ar { width: 1px; height: 22px; margin: 6px 0 6px 22px; }
+  .ar::after { right: auto; left: -3px; top: auto; bottom: 0; transform: rotate(135deg); }
+}
+/*dscss*/.sw { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.sw div { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--surface); }
+.sw i { display: block; height: 78px; }
+.sw span { display: block; padding: 10px 12px 12px; font-size: 13px; line-height: 1.3; }
+.sw b { display: block; font: 400 12px var(--mono); color: var(--muted); margin-top: 2px; }
+.dsgrid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 22px; margin-top: 22px; }
+.dsbox { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 26px; min-width: 0; }
+.dsbox small, .sw-t { font: 400 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 14px; }
+.spec { font-size: 54px; line-height: 1; margin: 0 0 14px; }
+.spec2 { font-size: 22px; line-height: 1.25; margin: 0 0 8px; }
+.spec3 { color: var(--muted); font-size: 15px; margin: 0 0 16px; }
+.wt { display: flex; gap: 18px; flex-wrap: wrap; font-size: 16px; }
+.dsbox p.t { margin: 0; color: var(--muted); font-size: 15.5px; }
+.comps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; margin-top: 22px; }
+.comps figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 18px; }
+.comps img { display: block; max-width: 100%; height: auto; border-radius: 12px; margin: 0 auto; }
+.comps figcaption { font: 400 12px var(--mono); color: var(--muted); margin-top: 12px; }
+.ux { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 0; border-top: 1px solid var(--line); }
+.ux div { padding: 26px 28px 26px 0; border-bottom: 1px solid var(--line); }
+.ux div:nth-child(even) { padding: 26px 0 26px 28px; border-left: 1px solid var(--line); }
+.ux .n { font: 400 12px var(--mono); color: var(--accent); letter-spacing: .08em; }
+.ux h3 { font-size: 21px; margin: 6px 0 8px; }
+.ux p { margin: 0; color: var(--muted); font-size: 15.5px; max-width: 52ch; }
+@media (max-width: 1000px) { .dsgrid { grid-template-columns: minmax(0,1fr); } .ux { grid-template-columns: minmax(0,1fr); } .ux div, .ux div:nth-child(even) { padding: 22px 0; border-left: 0; } }
+/*/dscss*//*fx*/
+@keyframes pgin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+body { animation: pgin .45s cubic-bezier(.2,.7,.2,1) both; }
+body.leaving { opacity: 0; transform: translateY(-6px); transition: opacity .22s ease, transform .22s ease; }
+a, .btn, .card, .step, .links a, .tools span, .ucard, .persona, .box { transition-property: color, background-color, border-color, box-shadow, transform, opacity; transition-duration: .22s; transition-timing-function: cubic-bezier(.2,.7,.2,1); }
+.btn:active, .card:active { transform: scale(.98); }
+.btn:hover { transform: translateY(-1px); }
+.card:hover { transform: translateY(-3px); }
+.rv { opacity: 0; transform: translateY(14px); transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); }
+.rv.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { body { animation: none; } body.leaving { transition: none; opacity: 1; transform: none; } .rv { opacity: 1; transform: none; transition: none; } .btn:hover, .card:hover { transform: none; } }
+/*/fx*/
+</style>
+</head>
+<body>
+<script>
+try { if ("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch (e) {}
+document.documentElement.style.scrollBehavior = "auto";
+window.scrollTo(0, 0);
+addEventListener("load", function () { window.scrollTo(0, 0); setTimeout(function () { document.documentElement.style.scrollBehavior = ""; }, 60); });
+addEventListener("pageshow", function () { window.scrollTo(0, 0); });
+</script>
+<div class="wrap">
+  <nav aria-label="Main">
+    <a class="logo" href="index.html"><i></i>Eyob Azeze</a>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#process">Process</a></li>
+      <li><a href="index.html#more">More</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <a class="btn primary sm" href="index.html#contact">Let's talk</a>
+  </nav>
+
+  <a class="back" href="index.html#work">&larr; All work</a>
+
+  <header class="head">
+    <p class="pill">Case study · Mobile app</p>
+    <h1>Affordable <span class="g">Housing</span> & Income Map App</h1>
+    <p class="lede">An interactive map that compares household income levels with housing costs across neighbourhoods, helping citizens, policymakers and planners make informed decisions.</p>
+  </header>
+
+  <div class="cover"><img src="img/cover-housing.jpg" alt="Four screens of the Affordable Housing and Income Map App on a blue background" width="1600" height="803"></div>
+
+  <div class="meta">
+    <div><small>Role</small><b>UI/UX design</b></div>
+    <div><small>Platform</small><b>Mobile</b></div>
+    <div><small>Focus</small><b>Rent vs. income</b></div>
+    <div><small>Tools</small><b>Figma, FigJam</b></div>
+  </div>
+
+  <section aria-labelledby="brief-h">
+    <div class="sec-head"><h2 id="brief-h">The <span class="g">brief</span></h2></div>
+    <div class="brief">
+      <div class="cell"><span class="n">01</span><h3>The problem</h3><ul><li>Government reports and surveys are static, outdated and hard to interpret.</li><li>Residents don't know which neighbourhoods are financially viable.</li><li>How can rent ranges and income distributions be overlaid to show where mismatches occur?</li></ul></div>
+      <div class="cell"><span class="n">02</span><h3>Design goals</h3><ul><li>Show rent ranges across neighbourhoods in an intuitive map view.</li><li>Overlay income data to identify affordability mismatches.</li><li>Filters for household size, income bracket and housing type.</li><li>Colour-coded visualisations for quick comparison.</li><li>An accessible, multilingual map for broad usability.</li></ul></div>
+      <div class="cell"><span class="n">03</span><h3>Impact</h3><ul><li><b>Citizens:</b> a clearer view of which neighbourhoods they can realistically afford.</li><li><b>Policy makers:</b> evidence-based insights to design subsidies, affordable housing projects and rent control measures.</li><li><b>Researchers:</b> open data visualisations that support studies on inequality and urban growth.</li></ul></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="users-h">
+    <div class="sec-head"><h2 id="users-h">Target <span class="g">users</span></h2></div>
+    <div class="ucards" style="margin-top:0"><div class="ucard"><h3>Citizens</h3><p>Individuals or families searching for affordable housing options.</p></div><div class="ucard"><h3>Policy makers and city planners</h3><p>Authorities analysing affordability to guide housing strategies and subsidies.</p></div><div class="ucard"><h3>Researchers and NGOs</h3><p>Organisations studying housing inequality and urban poverty.</p></div></div>
+  </section>
+
+  <section aria-labelledby="res-h">
+    <div class="sec-head"><h2 id="res-h">Research and <span class="g">personas</span></h2></div>
+    <p class="rs" style="margin-bottom:34px">I reviewed global housing affordability dashboards, such as Housing Affordability Index tools in U.S. cities, and compared them with Addis Ababa's housing reports. I found a gap in visual, neighbourhood-level accessibility for ordinary residents.</p>
+    <div class="persona-grid"><div class="persona"><div class="top"><div class="av">M</div><h3>Marta</h3></div><div class="facts"><span>Age 29</span><span>Teacher</span><span>Addis Ababa</span></div><p>A teacher searching for affordable family housing within her income range.</p></div><div class="persona"><div class="top"><div class="av">G</div><h3>Getahun</h3></div><div class="facts"><span>Age 24</span><span>Student</span><span>Addis Ababa</span></div><p>A recent graduate looking for shared rentals but unsure which neighbourhoods are feasible.</p></div></div>
+  </section>
+
+  <section aria-labelledby="flow-h">
+    <div class="sec-head"><h2 id="flow-h">User <span class="g">flow</span></h2><p>The path from opening the app to the main task.</p></div>
+    <div class="flowbox"><div class="fl-row"><span class="fn start">Citizen opens app</span><span class="ar" aria-hidden="true"></span><span class="fn dec">Has account?</span><span class="ar" aria-hidden="true"></span><span class="fn step">Open map</span><span class="ar" aria-hidden="true"></span><span class="fn step">Select household size + income range</span><span class="ar" aria-hidden="true"></span><span class="fn step">View neighbourhoods where housing is affordable</span><span class="ar" aria-hidden="true"></span><span class="fn step">Save / export results</span></div><div class="fl-branch"><p class="fl-lab">No account</p><div class="fl-row"><span class="fn ghost">Quick onboarding</span><span class="ar" aria-hidden="true"></span><span class="fn ghost">Sign up</span><span class="ar" aria-hidden="true"></span><span class="fn">Continue to step 1</span></div></div></div>
+  </section>
+
+  <section aria-labelledby="screens-h">
+    <div class="sec-head"><h2 id="screens-h">Key <span class="g">screens</span></h2><p>Six key screens: splash, home, map, affordability calculator, result and profile.</p></div>
+    <div class="gal ph-grid"><figure><img src="img/housing_10_1.webp" alt="Housing app screen 1" width="472" height="933" loading="lazy"><figcaption>01</figcaption></figure><figure><img src="img/housing_10_2.webp" alt="Housing app screen 2" width="472" height="933" loading="lazy"><figcaption>02</figcaption></figure><figure><img src="img/housing_10_3.webp" alt="Housing app screen 3" width="472" height="933" loading="lazy"><figcaption>03</figcaption></figure><figure><img src="img/housing_11_1.webp" alt="Housing app screen 4" width="472" height="933" loading="lazy"><figcaption>04</figcaption></figure><figure><img src="img/housing_11_2.webp" alt="Housing app screen 5" width="472" height="933" loading="lazy"><figcaption>05</figcaption></figure><figure><img src="img/housing_11_3.webp" alt="Housing app screen 6" width="472" height="933" loading="lazy"><figcaption>06</figcaption></figure></div>
+  </section>
+
+  <!--ds-->
+  <section id="design-system" aria-labelledby="ds-h">
+    <div class="sec-head"><h2 id="ds-h">Design <span class="g">system</span></h2><p>The visual language of the product: color, type, icons and the components that repeat.</p></div>
+    <span class="sw-t">Color</span>
+    <div class="sw"><div><i style="background:#0475C8"></i><span>Primary<b>#0475C8</b></span></div><div><i style="background:#0E528A"></i><span>Primary, dark<b>#0E528A</b></span></div><div><i style="background:#3E8DCC"></i><span>Primary, light<b>#3E8DCC</b></span></div><div><i style="background:#FBFCFC"></i><span>Surface<b>#FBFCFC</b></span></div><div><i style="background:#B45E3C"></i><span>Map warm<b>#B45E3C</b></span></div><div><i style="background:#BCC3C4"></i><span>Neutral<b>#BCC3C4</b></span></div></div>
+    <div class="dsgrid">
+      <div class="dsbox"><small>Typography · Inter</small>
+        <p class="spec" style="font-family:'Inter',sans-serif;font-weight:600">Aa</p>
+        <p class="spec2" style="font-family:'Inter',sans-serif;font-weight:600">Find. Calculate. Save.</p>
+        <p class="spec3" style="font-family:'Inter',sans-serif">Based on your income and expenses, we estimate the monthly rent you can afford without financial stress.</p>
+        <div class="wt" style="font-family:'Inter',sans-serif"><span style="font-weight:400">Regular</span><span style="font-weight:500">Medium</span><span style="font-weight:600">Semibold</span></div></div>
+      <div class="dsbox"><small>Iconography</small><p class="t">Outline icons with a blue active state: the active tab is blue with a bold label. A blue circular marker shows the selected neighborhood on the map.</p></div>
+    </div>
+    <div class="comps"><figure><img src="img/ds_housing_nav.jpg" alt="Bottom tab bar: Home, Map, Calculator, Profile" loading="lazy"><figcaption>Bottom tab bar: Home, Map, Calculator, Profile</figcaption></figure><figure><img src="img/ds_housing_sliders.jpg" alt="Calculator sliders with live values and range labels" loading="lazy"><figcaption>Calculator sliders with live values and range labels</figcaption></figure></div>
+  </section>
+
+  <section id="ux-principles" aria-labelledby="ux-h">
+    <div class="sec-head"><h2 id="ux-h">UX <span class="g">principles</span></h2><p>Usability principles behind the screens, and where they show up.</p></div>
+    <div class="ux"><div><span class="n">01</span><h3>Immediate feedback</h3><p>Sliders show their value as they move, so income, expenses and rent ratio can be adjusted by feel.</p></div><div><span class="n">02</span><h3>Progressive disclosure</h3><p>The path runs from map to calculator to a recommended rent range, then to the neighborhoods that match.</p></div><div><span class="n">03</span><h3>Clarity</h3><p>Plain labels and dollar ranges replace the tables found in static housing reports.</p></div><div><span class="n">04</span><h3>Color-coded comparison</h3><p>Rent levels are color-coded on the map, so mismatches show up without reading figures.</p></div></div>
+  </section>
+<!--/ds-->
+
+  <section aria-labelledby="next-h">
+    <div class="sec-head"><h2 id="next-h">Reflection and <span class="g">what's next</span></h2></div>
+    <div class="two">
+      <div><h3>Future improvements</h3><ul><li>Real-time rent data integration from online listings.</li><li>Predictive modelling of housing costs under different growth scenarios.</li><li>Community-driven reporting of rental prices for richer datasets.</li></ul></div>
+      <div><h3>Tools used</h3><div class="tools"><span>Figma & FigJam</span><span>Mapbox / Leaflet (inspiration)</span><span>Freepik</span><span>Unsplash</span></div></div>
+    </div>
+  </section>
+
+  <div class="next">
+    <h2>Next case study <span class="g">Land Use Zoning Visualizer</span></h2>
+    <div class="acts"><a class="btn primary" href="zoning.html">Land Use Zoning Visualizer &rarr;</a><a class="btn" href="index.html#contact">Get in touch</a></div>
+  </div>
+</div>
+<script></script>
+<script></script>
+<script>/*fx*/
+(function () {
+  var rm = false; try { rm = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+  if (rm) return;
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("a[href]");
+    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+    var h = a.getAttribute("href");
+    if (!h || h.charAt(0) === "#" || /^(https?:|mailto:|tel:)/.test(h) || a.target === "_blank") return;
+    var page = h.split("#")[0], here = location.pathname.split("/").pop() || "index.html";
+    if (!page || page === here) return;
+    e.preventDefault(); document.body.classList.add("leaving");
+    setTimeout(function () { location.href = a.href; }, 200);
+  });
+  addEventListener("pageshow", function (e) { if (e.persisted) document.body.classList.remove("leaving"); });
+  try {
+    if ("IntersectionObserver" in window) {
+      var els = document.querySelectorAll("section .sec-head, .step, .persona, .ucard, .box, .job, .flowbox, .gal figure, .next, .contact");
+      var io = new IntersectionObserver(function (es) { es.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add("in"); io.unobserve(x.target); } }); }, { rootMargin: "0px 0px -8% 0px" });
+      els.forEach(function (el) { var r = el.getBoundingClientRect(); if (r.top > innerHeight) { el.classList.add("rv"); io.observe(el); } });
+    }
+  } catch (e) {}
+})();
+/*/fx*/</script>
+</body>
+</html>

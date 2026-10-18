@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Urban Feedback & Complaint Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root {
+  --bg: #0a0c0b; --surface: #111513; --surface-2: #181d1a;
+  --line: rgba(236,242,237,.09); --fg: #eef2ee; --muted: #98a39b;
+  --accent: #2be46a; --accent-ink: #04170b;
+  --head: "DM Sans", system-ui, sans-serif; --body: "Inter", system-ui, sans-serif; --mono: "DM Mono", ui-monospace, Menlo, monospace;
+  --pw: 220px; --lw: 190px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--bg); padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 400 16px/1.6 var(--body); -webkit-font-smoothing: antialiased; position: relative; overflow-x: clip;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 40px; }
+body::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 700px; background: radial-gradient(circle 420px at 88% 160px, rgba(43,228,106,.14), transparent 70%); z-index: -1; pointer-events: none; }
+a { color: inherit; text-decoration: none; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1120px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--head); margin: 0; text-wrap: balance; letter-spacing: -0.02em; }
+.g { color: var(--accent); }
+nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0; flex-wrap: wrap; }
+.logo { font: 700 18px var(--head); display: flex; align-items: center; gap: 10px; }
+.logo i { width: 10px; height: 10px; border-radius: 3px; background: var(--accent); box-shadow: 0 0 14px var(--accent); }
+nav ul { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; font-size: 14px; color: var(--muted); }
+nav ul a:hover { color: var(--fg); }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 999px; font: 500 14px var(--body); border: 1px solid var(--line); background: var(--surface); transition: border-color .2s; }
+.btn:hover { border-color: rgba(236,242,237,.3); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; box-shadow: 0 0 24px rgba(43,228,106,.25); }
+.btn.sm { padding: 9px 18px; font-size: 13px; }
+
+.back { display: inline-flex; gap: 8px; font: 400 12px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-top: 18px; }
+.back:hover { color: var(--accent); }
+.head { padding: 28px 0 40px; }
+.pill { display: inline-block; font: 500 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(43,228,106,.4); border-radius: 999px; padding: 6px 14px; margin: 0 0 20px; background: rgba(43,228,106,.06); }
+.head h1 { font-size: clamp(38px, 6.4vw, 72px); line-height: 1.04; max-width: 16ch; }
+.head p.lede { max-width: 58ch; color: var(--muted); font-size: 18px; margin: 24px 0 0; }
+.cover { border-radius: 20px; overflow: hidden; border: 1px solid var(--line); background: var(--surface-2); }
+.cover img { display: block; width: 100%; height: auto; }
+.meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 28px; border: 1px solid var(--line); border-radius: 16px; background: rgba(17,21,19,.8); }
+.meta div { padding: 18px 22px; border-right: 1px solid var(--line); }
+.meta div:last-child { border-right: 0; }
+.meta small { display: block; font: 400 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.meta b { font-weight: 500; font-size: 15px; }
+
+section { padding: 80px 0 0; }
+.sec-head { margin-bottom: 30px; max-width: 60ch; }
+.sec-head h2 { font-size: clamp(28px, 4vw, 44px); line-height: 1.08; }
+.sec-head p { margin: 12px 0 0; color: var(--muted); }
+
+.brief { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+.cell { padding: 28px 28px 8px 0; }
+.cell + .cell { padding-left: 28px; border-left: 1px solid var(--line); }
+.cell .n { font: 400 12px var(--mono); color: var(--accent); letter-spacing: .08em; }
+.cell h3 { font-size: 26px; margin: 8px 0 14px; }
+.cell ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.cell li { color: var(--muted); font-size: 15.5px; padding-left: 18px; position: relative; }
+.cell li::before { content: ""; position: absolute; left: 0; top: .6em; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); }
+.note { font: 400 12px var(--mono); color: var(--muted); margin-top: 16px; }
+.users { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.users span { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 8px 18px; font-size: 15px; }
+
+.flowhead { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
+.flowhead h3 { font-size: 28px; }
+.flowhead span { font: 400 12px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 26px; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 26px 26px 30px; min-width: 0; overflow: hidden; }
+.step .k { font: 400 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
+.step h3 { font-size: 22px; margin-bottom: 22px; }
+.fig { overflow-x: auto; padding: 6px 0 4px; }
+.ph { position: relative; width: var(--pw); margin-right: calc(var(--lw) + 44px); }
+.shot { position: relative; }
+.labs { position: absolute; left: calc(100% + 44px); top: 0; bottom: 0; width: var(--lw); }
+.ph img { display: block; width: 100%; height: auto; border-radius: 26px; border: 1px solid rgba(236,242,237,.2); box-shadow: 0 20px 40px rgba(0,0,0,.4); }
+.lead { position: absolute; left: var(--x); top: var(--y); width: calc(100% - var(--x) + 36px); border-top: 1.5px dashed rgba(43,228,106,.8); z-index: 1; }
+.pin { position: absolute; left: var(--x); top: var(--y); width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font: 500 10px/16px var(--mono); text-align: center; z-index: 2; box-shadow: 0 0 0 3px rgba(43,228,106,.25); }
+.lab { position: absolute; left: 0; top: var(--y); transform: translateY(-50%); width: var(--lw); font-size: 13px; line-height: 1.35; color: var(--fg); display: flex; gap: 8px; align-items: baseline; }
+.lab b { font: 500 11px var(--mono); color: var(--accent); flex: none; }
+
+.build { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 36px; align-items: start; border-top: 1px solid var(--line); padding-top: 30px; }
+.build p { margin: 0 0 14px; color: var(--muted); font-size: 16px; max-width: 54ch; }
+.tools { display: flex; flex-wrap: wrap; gap: 8px; }
+.tools span { font: 400 12px var(--mono); border: 1px solid rgba(43,228,106,.4); color: var(--accent); background: rgba(43,228,106,.06); border-radius: 999px; padding: 6px 14px; }
+.links { display: grid; }
+.links a { display: flex; justify-content: space-between; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.links a span { color: var(--accent); }
+.links a:first-child { border-top: 1px solid var(--line); }
+.links a:hover { color: var(--accent); }
+
+.next { margin-top: 90px; background: rgba(17,21,19,.85); border: 1px solid var(--line); border-radius: 22px; padding: 36px 40px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+.next h2 { font-size: clamp(26px, 3.6vw, 40px); line-height: 1.1; max-width: 18ch; }
+.next .acts { display: flex; gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 1000px) {
+  .steps { grid-template-columns: minmax(0, 1fr); }
+  .brief { grid-template-columns: minmax(0, 1fr); }
+  .cell, .cell + .cell { padding: 24px 0 8px; border-left: 0; border-bottom: 1px solid var(--line); }
+  .build { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 700px) {
+  nav ul { display: none; }
+  .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .meta div:nth-child(2) { border-right: 0; }
+  .meta div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  :root { --pw: 210px; }
+  .step { padding: 22px 18px 26px; }
+  .ph { width: auto; margin-right: 0; display: flex; flex-direction: column; gap: 18px; }
+  .shot { width: var(--pw); }
+  .labs { position: static; width: auto; display: grid; gap: 8px; }
+  .lab { position: static; transform: none; width: auto; font-size: 14px; }
+  .lead { display: none; }
+  .next { padding: 28px 24px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } html { scroll-behavior: auto; } }
+
+.cell h3 { font-size: 24px; }
+.cell li b { color: var(--fg); font-weight: 500; }
+.ucards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 26px; }
+.ucard { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px 22px 24px; }
+.ucard h3 { font-size: 19px; margin-bottom: 8px; }
+.ucard p { margin: 0; color: var(--muted); font-size: 15px; }
+.rs { margin: 0; max-width: 62ch; color: var(--muted); font-size: 17px; }
+.persona-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+.persona { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 26px; }
+.persona .top { display: flex; gap: 16px; align-items: center; margin-bottom: 18px; }
+.persona .av { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: rgba(43,228,106,.1); border: 1px solid rgba(43,228,106,.4); color: var(--accent); font: 700 20px var(--head); flex: none; }
+.persona h3 { font-size: 24px; }
+.persona .facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+.persona .facts span { font: 400 12px var(--mono); color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; }
+.persona p { margin: 0; font-size: 17px; line-height: 1.5; }
+.flowbox { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 34px 30px; }
+.fl-row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 0; }
+.fn { border: 1px solid var(--line); background: var(--surface-2); border-radius: 12px; padding: 12px 16px; font-size: 14px; line-height: 1.3; max-width: 190px; }
+.fn.start { border-radius: 999px; background: rgba(43,228,106,.1); border-color: rgba(43,228,106,.5); color: var(--fg); }
+.fn.dec { border-style: dashed; border-color: rgba(236,242,237,.3); }
+.fn.step { border-color: rgba(43,228,106,.35); }
+.fn.ghost { border-style: dashed; color: var(--muted); }
+.ar { width: 28px; height: 1px; background: rgba(43,228,106,.7); position: relative; margin: 0 6px; flex: none; }
+.ar::after { content: ""; position: absolute; right: 0; top: -3px; width: 6px; height: 6px; border-top: 1px solid rgba(43,228,106,.9); border-right: 1px solid rgba(43,228,106,.9); transform: rotate(45deg); }
+.fl-lab { font: 400 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+.fl-branch { margin-top: 26px; padding-top: 22px; border-top: 1px dashed var(--line); }
+.gal { display: grid; gap: 22px; }
+.gal.ph-grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+.gal.lp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.gal figure { margin: 0; }
+.gal img { display: block; width: 100%; height: auto; }
+.gal.ph-grid img { filter: drop-shadow(0 18px 26px rgba(0,0,0,.45)); }
+.gal.lp-grid figure.wide { grid-column: 1 / -1; }
+.gal figcaption { font: 400 11px var(--mono); color: var(--muted); letter-spacing: .06em; margin-top: 10px; }
+.stage-card { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 30px; }
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; border-top: 1px solid var(--line); padding-top: 30px; }
+.two ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.two li { color: var(--muted); font-size: 15.5px; padding-left: 18px; position: relative; }
+.two li::before { content: ""; position: absolute; left: 0; top: .6em; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); }
+.two h3 { font-size: 22px; margin-bottom: 14px; }
+@media (max-width: 1000px) { .two { grid-template-columns: minmax(0,1fr); gap: 28px; } }
+@media (max-width: 700px) {
+  .gal.lp-grid { grid-template-columns: minmax(0,1fr); }
+  .gal.ph-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+  .flowbox { padding: 24px 18px; }
+  .fl-row { flex-direction: column; align-items: flex-start; gap: 0; }
+  .ar { width: 1px; height: 22px; margin: 6px 0 6px 22px; }
+  .ar::after { right: auto; left: -3px; top: auto; bottom: 0; transform: rotate(135deg); }
+}
+/*dscss*/.sw { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.sw div { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--surface); }
+.sw i { display: block; height: 78px; }
+.sw span { display: block; padding: 10px 12px 12px; font-size: 13px; line-height: 1.3; }
+.sw b { display: block; font: 400 12px var(--mono); color: var(--muted); margin-top: 2px; }
+.dsgrid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 22px; margin-top: 22px; }
+.dsbox { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 26px; min-width: 0; }
+.dsbox small, .sw-t { font: 400 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 14px; }
+.spec { font-size: 54px; line-height: 1; margin: 0 0 14px; }
+.spec2 { font-size: 22px; line-height: 1.25; margin: 0 0 8px; }
+.spec3 { color: var(--muted); font-size: 15px; margin: 0 0 16px; }
+.wt { display: flex; gap: 18px; flex-wrap: wrap; font-size: 16px; }
+.dsbox p.t { margin: 0; color: var(--muted); font-size: 15.5px; }
+.comps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; margin-top: 22px; }
+.comps figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 18px; }
+.comps img { display: block; max-width: 100%; height: auto; border-radius: 12px; margin: 0 auto; }
+.comps figcaption { font: 400 12px var(--mono); color: var(--muted); margin-top: 12px; }
+.ux { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 0; border-top: 1px solid var(--line); }
+.ux div { padding: 26px 28px 26px 0; border-bottom: 1px solid var(--line); }
+.ux div:nth-child(even) { padding: 26px 0 26px 28px; border-left: 1px solid var(--line); }
+.ux .n { font: 400 12px var(--mono); color: var(--accent); letter-spacing: .08em; }
+.ux h3 { font-size: 21px; margin: 6px 0 8px; }
+.ux p { margin: 0; color: var(--muted); font-size: 15.5px; max-width: 52ch; }
+@media (max-width: 1000px) { .dsgrid { grid-template-columns: minmax(0,1fr); } .ux { grid-template-columns: minmax(0,1fr); } .ux div, .ux div:nth-child(even) { padding: 22px 0; border-left: 0; } }
+/*/dscss*//*fx*/
+@keyframes pgin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+body { animation: pgin .45s cubic-bezier(.2,.7,.2,1) both; }
+body.leaving { opacity: 0; transform: translateY(-6px); transition: opacity .22s ease, transform .22s ease; }
+a, .btn, .card, .step, .links a, .tools span, .ucard, .persona, .box { transition-property: color, background-color, border-color, box-shadow, transform, opacity; transition-duration: .22s; transition-timing-function: cubic-bezier(.2,.7,.2,1); }
+.btn:active, .card:active { transform: scale(.98); }
+.btn:hover { transform: translateY(-1px); }
+.card:hover { transform: translateY(-3px); }
+.rv { opacity: 0; transform: translateY(14px); transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); }
+.rv.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { body { animation: none; } body.leaving { transition: none; opacity: 1; transform: none; } .rv { opacity: 1; transform: none; transition: none; } .btn:hover, .card:hover { transform: none; } }
+/*/fx*/
+</style>
+</head>
+<body>
+<script>
+try { if ("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch (e) {}
+document.documentElement.style.scrollBehavior = "auto";
+window.scrollTo(0, 0);
+addEventListener("load", function () { window.scrollTo(0, 0); setTimeout(function () { document.documentElement.style.scrollBehavior = ""; }, 60); });
+addEventListener("pageshow", function () { window.scrollTo(0, 0); });
+</script>
+<div class="wrap">
+  <nav aria-label="Main">
+    <a class="logo" href="index.html"><i></i>Eyob Azeze</a>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#process">Process</a></li>
+      <li><a href="index.html#more">More</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <a class="btn primary sm" href="index.html#contact">Let's talk</a>
+  </nav>
+
+  <a class="back" href="index.html#work">&larr; All work</a>
+
+  <header class="head">
+    <p class="pill">Case study · Mobile app</p>
+    <h1>Urban Feedback & <span class="g">Complaint</span> Platform</h1>
+    <p class="lede">A digital bridge between citizens and city administration. A citizen-to-government interface that simplifies reporting, ensures accountability and builds trust through transparency.</p>
+  </header>
+
+  <div class="cover"><img src="img/cover-feedback.jpg" alt="Voiceful, the Urban Feedback and Complaint Platform, on a laptop and a phone" width="1600" height="932"></div>
+
+  <div class="meta">
+    <div><small>Role</small><b>UI/UX design</b></div>
+    <div><small>Platform</small><b>Mobile</b></div>
+    <div><small>Focus</small><b>Citizen reporting</b></div>
+    <div><small>Tools</small><b>Figma, FigJam</b></div>
+  </div>
+
+  <section aria-labelledby="brief-h">
+    <div class="sec-head"><h2 id="brief-h">The <span class="g">brief</span></h2></div>
+    <div class="brief">
+      <div class="cell"><span class="n">01</span><h3>The problem</h3><ul><li>Existing reporting methods are fragmented or too slow.</li><li>Citizens don't know whether complaints are received or processed.</li><li>How can citizens report issues easily while officials get usable data and the process stays transparent?</li></ul></div>
+      <div class="cell"><span class="n">02</span><h3>Design goals</h3><ul><li>Quick, intuitive reporting with photos, text and precise geolocation.</li><li>Real-time tracking of complaint status.</li><li>A transparent public dashboard of common issues and their frequency.</li><li>Management tools for staff to categorise, prioritise and close cases.</li></ul></div>
+      <div class="cell"><span class="n">03</span><h3>Impact</h3><ul><li><b>Citizens:</b> more confidence that their voices are heard, leading to stronger engagement.</li><li><b>Administrators:</b> structured data and analytics to prioritise interventions.</li><li><b>The city:</b> transparency and accountability that build trust.</li></ul></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="users-h">
+    <div class="sec-head"><h2 id="users-h">Target <span class="g">users</span></h2></div>
+    <div class="ucards" style="margin-top:0"><div class="ucard"><h3>Citizens</h3><p>Residents of all ages who want an accessible way to report issues, from young professionals to elderly community members.</p></div><div class="ucard"><h3>City administrators</h3><p>Municipal staff who log, track and resolve reported issues.</p></div><div class="ucard"><h3>Community groups and NGOs</h3><p>Organisations that monitor city services and advocate for improvements.</p></div></div>
+  </section>
+
+  <section aria-labelledby="res-h">
+    <div class="sec-head"><h2 id="res-h">Research and <span class="g">personas</span></h2></div>
+    <p class="rs" style="margin-bottom:34px">I began by analysing global civic engagement tools such as SeeClickFix and FixMyStreet, studying their strengths and shortcomings. Local insights from Ethiopian municipalities highlighted a lack of digital infrastructure for citizen engagement, which shaped the focus on accessibility and simplicity.</p>
+    <div class="persona-grid"><div class="persona"><div class="top"><div class="av">A</div><h3>Abebe</h3></div><div class="facts"><span>Age 29</span><span>Worker</span><span>Addis Ababa</span></div><p>A young worker who notices traffic signal malfunctions on his daily commute and wants a fast reporting method.</p></div><div class="persona"><div class="top"><div class="av">M</div><h3>Meskerem</h3></div><div class="facts"><span>Age 60</span><span>Resident</span><span>Addis Ababa</span></div><p>A resident struggling with poor waste collection who needs a simple, mobile-friendly system.</p></div></div>
+  </section>
+
+  <section aria-labelledby="flow-h">
+    <div class="sec-head"><h2 id="flow-h">User <span class="g">flow</span></h2><p>The path from opening the app to the main task.</p></div>
+    <div class="flowbox"><div class="fl-row"><span class="fn start">Citizen opens app</span><span class="ar" aria-hidden="true"></span><span class="fn dec">Has account?</span><span class="ar" aria-hidden="true"></span><span class="fn step">Home page</span><span class="ar" aria-hidden="true"></span><span class="fn step">Tap to Report page</span><span class="ar" aria-hidden="true"></span><span class="fn step">Upload photo and other information</span><span class="ar" aria-hidden="true"></span><span class="fn step">Submit report</span><span class="ar" aria-hidden="true"></span><span class="fn step">Tap My report page to track your reports</span></div><div class="fl-branch"><p class="fl-lab">No account</p><div class="fl-row"><span class="fn ghost">Quick onboarding</span><span class="ar" aria-hidden="true"></span><span class="fn ghost">Sign up</span><span class="ar" aria-hidden="true"></span><span class="fn">Continue to step 1</span></div></div></div>
+  </section>
+
+  <section aria-labelledby="screens-h">
+    <div class="sec-head"><h2 id="screens-h">Key <span class="g">screens</span></h2><p>Nine key screens: onboarding, sign-in, map home, report form, report preview, my reports, profile and settings.</p></div>
+    <div class="gal ph-grid"><figure><img src="img/feedback_10_1.webp" alt="Feedback app screen 1" width="471" height="934" loading="lazy"><figcaption>01</figcaption></figure><figure><img src="img/feedback_10_2.webp" alt="Feedback app screen 2" width="472" height="934" loading="lazy"><figcaption>02</figcaption></figure><figure><img src="img/feedback_10_3.webp" alt="Feedback app screen 3" width="472" height="934" loading="lazy"><figcaption>03</figcaption></figure><figure><img src="img/feedback_11_1.webp" alt="Feedback app screen 4" width="471" height="934" loading="lazy"><figcaption>04</figcaption></figure><figure><img src="img/feedback_11_2.webp" alt="Feedback app screen 5" width="472" height="934" loading="lazy"><figcaption>05</figcaption></figure><figure><img src="img/feedback_11_3.webp" alt="Feedback app screen 6" width="472" height="934" loading="lazy"><figcaption>06</figcaption></figure><figure><img src="img/feedback_12_1.webp" alt="Feedback app screen 7" width="471" height="934" loading="lazy"><figcaption>07</figcaption></figure><figure><img src="img/feedback_12_2.webp" alt="Feedback app screen 8" width="472" height="934" loading="lazy"><figcaption>08</figcaption></figure><figure><img src="img/feedback_12_3.webp" alt="Feedback app screen 9" width="472" height="934" loading="lazy"><figcaption>09</figcaption></figure></div>
+  </section>
+
+  <!--ds-->
+  <section id="design-system" aria-labelledby="ds-h">
+    <div class="sec-head"><h2 id="ds-h">Design <span class="g">system</span></h2><p>The visual language of the product: color, type, icons and the components that repeat.</p></div>
+    <span class="sw-t">Color</span>
+    <div class="sw"><div><i style="background:#259A1A"></i><span>Primary<b>#259A1A</b></span></div><div><i style="background:#EBF4E9"></i><span>Primary, tint<b>#EBF4E9</b></span></div><div><i style="background:#FEFEFE"></i><span>Surface<b>#FEFEFE</b></span></div><div><i style="background:#393833"></i><span>Text<b>#393833</b></span></div><div><i style="background:#3E83EB"></i><span>Info blue<b>#3E83EB</b></span></div><div><i style="background:#E7B12A"></i><span>Status gold<b>#E7B12A</b></span></div></div>
+    <div class="dsgrid">
+      <div class="dsbox"><small>Typography · Inter</small>
+        <p class="spec" style="font-family:'Inter',sans-serif;font-weight:600">Aa</p>
+        <p class="spec2" style="font-family:'Inter',sans-serif;font-weight:600">Spot a problem?</p>
+        <p class="spec3" style="font-family:'Inter',sans-serif">Snap a photo, share the location, and submit a report in seconds.</p>
+        <div class="wt" style="font-family:'Inter',sans-serif"><span style="font-weight:400">Regular</span><span style="font-weight:500">Medium</span><span style="font-weight:600">Semibold</span></div></div>
+      <div class="dsbox"><small>Iconography</small><p class="t">Outline icons in the tab bar, each with a label. Category chips pair a small green glyph with a text label (Roads, Lighting, Waste, Transport). The active tab turns green.</p></div>
+    </div>
+    <div class="comps"><figure><img src="img/ds_feedback_nav.jpg" alt="Bottom tab bar: Home, Report, My Report, Profile" loading="lazy"><figcaption>Bottom tab bar: Home, Report, My Report, Profile</figcaption></figure><figure><img src="img/ds_feedback_chips.jpg" alt="Search field and category chips on the map" loading="lazy"><figcaption>Search field and category chips on the map</figcaption></figure></div>
+  </section>
+
+  <section id="ux-principles" aria-labelledby="ux-h">
+    <div class="sec-head"><h2 id="ux-h">UX <span class="g">principles</span></h2><p>Usability principles behind the screens, and where they show up.</p></div>
+    <div class="ux"><div><span class="n">01</span><h3>Visibility of system status</h3><p>My Report lists every submission with its status, so citizens can see whether a complaint has been received and processed.</p></div><div><span class="n">02</span><h3>Minimal effort</h3><p>The report form asks for a photo, category, short description and a confirmed location, nothing more.</p></div><div><span class="n">03</span><h3>User control</h3><p>A preview screen with Post and Draft lets people check a report before it goes out.</p></div><div><span class="n">04</span><h3>Transparency</h3><p>A public feed with category filters shows what others have reported and how often.</p></div></div>
+  </section>
+<!--/ds-->
+
+  <section aria-labelledby="next-h">
+    <div class="sec-head"><h2 id="next-h">Reflection and <span class="g">what's next</span></h2></div>
+    <div class="two">
+      <div><h3>Future improvements</h3><ul><li>AI-based categorisation of issues using image recognition.</li><li>Integration with government resource management systems for faster resolution.</li><li>Expanded offline functionality for users with limited connectivity.</li></ul></div>
+      <div><h3>Tools used</h3><div class="tools"><span>Figma & FigJam</span><span>Mapbox / Leaflet (inspiration)</span><span>Freepik</span><span>Unsplash</span></div></div>
+    </div>
+  </section>
+
+  <div class="next">
+    <h2>Next case study <span class="g">Urban Access Map App</span></h2>
+    <div class="acts"><a class="btn primary" href="access.html">Urban Access Map App &rarr;</a><a class="btn" href="index.html#contact">Get in touch</a></div>
+  </div>
+</div>
+<script></script>
+<script></script>
+<script>/*fx*/
+(function () {
+  var rm = false; try { rm = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+  if (rm) return;
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("a[href]");
+    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+    var h = a.getAttribute("href");
+    if (!h || h.charAt(0) === "#" || /^(https?:|mailto:|tel:)/.test(h) || a.target === "_blank") return;
+    var page = h.split("#")[0], here = location.pathname.split("/").pop() || "index.html";
+    if (!page || page === here) return;
+    e.preventDefault(); document.body.classList.add("leaving");
+    setTimeout(function () { location.href = a.href; }, 200);
+  });
+  addEventListener("pageshow", function (e) { if (e.persisted) document.body.classList.remove("leaving"); });
+  try {
+    if ("IntersectionObserver" in window) {
+      var els = document.querySelectorAll("section .sec-head, .step, .persona, .ucard, .box, .job, .flowbox, .gal figure, .next, .contact");
+      var io = new IntersectionObserver(function (es) { es.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add("in"); io.unobserve(x.target); } }); }, { rootMargin: "0px 0px -8% 0px" });
+      els.forEach(function (el) { var r = el.getBoundingClientRect(); if (r.top > innerHeight) { el.classList.add("rv"); io.observe(el); } });
+    }
+  } catch (e) {}
+})();
+/*/fx*/</script>
+</body>
+</html>

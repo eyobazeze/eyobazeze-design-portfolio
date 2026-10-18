@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Urban Access Map App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Inter:wght@400;500;600&family=Poppins:wght@400;500;600&display=swap">
+<style>
+:root {
+  --bg: #0a0c0b; --surface: #111513; --surface-2: #181d1a;
+  --line: rgba(236,242,237,.09); --fg: #eef2ee; --muted: #98a39b;
+  --accent: #2be46a; --accent-ink: #04170b;
+  --head: "DM Sans", system-ui, sans-serif; --body: "Inter", system-ui, sans-serif; --mono: "DM Mono", ui-monospace, Menlo, monospace;
+  --pw: 220px; --lw: 190px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--bg); padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 400 16px/1.6 var(--body); -webkit-font-smoothing: antialiased; position: relative; overflow-x: clip;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 40px; }
+body::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 700px; background: radial-gradient(circle 420px at 88% 160px, rgba(43,228,106,.14), transparent 70%); z-index: -1; pointer-events: none; }
+a { color: inherit; text-decoration: none; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1120px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--head); margin: 0; text-wrap: balance; letter-spacing: -0.02em; }
+.g { color: var(--accent); }
+nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0; flex-wrap: wrap; }
+.logo { font: 700 18px var(--head); display: flex; align-items: center; gap: 10px; }
+.logo i { width: 10px; height: 10px; border-radius: 3px; background: var(--accent); box-shadow: 0 0 14px var(--accent); }
+nav ul { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; font-size: 14px; color: var(--muted); }
+nav ul a:hover { color: var(--fg); }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 999px; font: 500 14px var(--body); border: 1px solid var(--line); background: var(--surface); transition: border-color .2s; }
+.btn:hover { border-color: rgba(236,242,237,.3); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; box-shadow: 0 0 24px rgba(43,228,106,.25); }
+.btn.sm { padding: 9px 18px; font-size: 13px; }
+
+.back { display: inline-flex; gap: 8px; font: 400 12px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-top: 18px; }
+.back:hover { color: var(--accent); }
+.head { padding: 28px 0 40px; }
+.pill { display: inline-block; font: 500 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(43,228,106,.4); border-radius: 999px; padding: 6px 14px; margin: 0 0 20px; background: rgba(43,228,106,.06); }
+.head h1 { font-size: clamp(38px, 6.4vw, 72px); line-height: 1.04; max-width: 16ch; }
+.head p.lede { max-width: 58ch; color: var(--muted); font-size: 18px; margin: 24px 0 0; }
+.cover { border-radius: 20px; overflow: hidden; border: 1px solid var(--line); background: var(--surface-2); }
+.cover img { display: block; width: 100%; height: auto; }
+.meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 28px; border: 1px solid var(--line); border-radius: 16px; background: rgba(17,21,19,.8); }
+.meta div { padding: 18px 22px; border-right: 1px solid var(--line); }
+.meta div:last-child { border-right: 0; }
+.meta small { display: block; font: 400 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.meta b { font-weight: 500; font-size: 15px; }
+
+section { padding: 80px 0 0; }
+.sec-head { margin-bottom: 30px; max-width: 60ch; }
+.sec-head h2 { font-size: clamp(28px, 4vw, 44px); line-height: 1.08; }
+.sec-head p { margin: 12px 0 0; color: var(--muted); }
+
+.brief { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+.cell { padding: 28px 28px 8px 0; }
+.cell + .cell { padding-left: 28px; border-left: 1px solid var(--line); }
+.cell .n { font: 400 12px var(--mono); color: var(--accent); letter-spacing: .08em; }
+.cell h3 { font-size: 26px; margin: 8px 0 14px; }
+.cell ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.cell li { color: var(--muted); font-size: 15.5px; padding-left: 18px; position: relative; }
+.cell li::before { content: ""; position: absolute; left: 0; top: .6em; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); }
+.note { font: 400 12px var(--mono); color: var(--muted); margin-top: 16px; }
+.users { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.users span { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 8px 18px; font-size: 15px; }
+
+.flowhead { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
+.flowhead h3 { font-size: 28px; }
+.flowhead span { font: 400 12px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 26px; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 26px 26px 30px; min-width: 0; overflow: hidden; }
+.step .k { font: 400 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
+.step h3 { font-size: 22px; margin-bottom: 22px; }
+.fig { overflow-x: auto; padding: 6px 0 4px; }
+.ph { position: relative; width: var(--pw); margin-right: calc(var(--lw) + 44px); }
+.shot { position: relative; }
+.labs { position: absolute; left: calc(100% + 44px); top: 0; bottom: 0; width: var(--lw); }
+.ph img { display: block; width: 100%; height: auto; border-radius: 26px; border: 1px solid rgba(236,242,237,.2); box-shadow: 0 20px 40px rgba(0,0,0,.4); }
+.lead { position: absolute; left: var(--x); top: var(--y); width: calc(100% - var(--x) + 36px); border-top: 1.5px dashed rgba(43,228,106,.8); z-index: 1; }
+.pin { position: absolute; left: var(--x); top: var(--y); width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font: 500 10px/16px var(--mono); text-align: center; z-index: 2; box-shadow: 0 0 0 3px rgba(43,228,106,.25); }
+.lab { position: absolute; left: 0; top: var(--y); transform: translateY(-50%); width: var(--lw); font-size: 13px; line-height: 1.35; color: var(--fg); display: flex; gap: 8px; align-items: baseline; }
+.lab b { font: 500 11px var(--mono); color: var(--accent); flex: none; }
+
+.build { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 36px; align-items: start; border-top: 1px solid var(--line); padding-top: 30px; }
+.build p { margin: 0 0 14px; color: var(--muted); font-size: 16px; max-width: 54ch; }
+.tools { display: flex; flex-wrap: wrap; gap: 8px; }
+.tools span { font: 400 12px var(--mono); border: 1px solid rgba(43,228,106,.4); color: var(--accent); background: rgba(43,228,106,.06); border-radius: 999px; padding: 6px 14px; }
+.links { display: grid; }
+.links a { display: flex; justify-content: space-between; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.links a span { color: var(--accent); }
+.links a:first-child { border-top: 1px solid var(--line); }
+.links a:hover { color: var(--accent); }
+
+.next { margin-top: 90px; background: rgba(17,21,19,.85); border: 1px solid var(--line); border-radius: 22px; padding: 36px 40px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+.next h2 { font-size: clamp(26px, 3.6vw, 40px); line-height: 1.1; max-width: 18ch; }
+.next .acts { display: flex; gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 1000px) {
+  .steps { grid-template-columns: minmax(0, 1fr); }
+  .brief { grid-template-columns: minmax(0, 1fr); }
+  .cell, .cell + .cell { padding: 24px 0 8px; border-left: 0; border-bottom: 1px solid var(--line); }
+  .build { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 700px) {
+  nav ul { display: none; }
+  .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .meta div:nth-child(2) { border-right: 0; }
+  .meta div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  :root { --pw: 210px; }
+  .step { padding: 22px 18px 26px; }
+  .ph { width: auto; margin-right: 0; display: flex; flex-direction: column; gap: 18px; }
+  .shot { width: var(--pw); }
+  .labs { position: static; width: auto; display: grid; gap: 8px; }
+  .lab { position: static; transform: none; width: auto; font-size: 14px; }
+  .lead { display: none; }
+  .next { padding: 28px 24px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } html { scroll-behavior: auto; } }
+
+.cell h3 { font-size: 24px; }
+.cell li b { color: var(--fg); font-weight: 500; }
+.ucards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 26px; }
+.ucard { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px 22px 24px; }
+.ucard h3 { font-size: 19px; margin-bottom: 8px; }
+.ucard p { margin: 0; color: var(--muted); font-size: 15px; }
+.rs { margin: 0; max-width: 62ch; color: var(--muted); font-size: 17px; }
+.persona-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+.persona { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 26px; }
+.persona .top { display: flex; gap: 16px; align-items: center; margin-bottom: 18px; }
+.persona .av { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: rgba(43,228,106,.1); border: 1px solid rgba(43,228,106,.4); color: var(--accent); font: 700 20px var(--head); flex: none; }
+.persona h3 { font-size: 24px; }
+.persona .facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+.persona .facts span { font: 400 12px var(--mono); color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; }
+.persona p { margin: 0; font-size: 17px; line-height: 1.5; }
+.flowbox { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 34px 30px; }
+.fl-row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 0; }
+.fn { border: 1px solid var(--line); background: var(--surface-2); border-radius: 12px; padding: 12px 16px; font-size: 14px; line-height: 1.3; max-width: 190px; }
+.fn.start { border-radius: 999px; background: rgba(43,228,106,.1); border-color: rgba(43,228,106,.5); color: var(--fg); }
+.fn.dec { border-style: dashed; border-color: rgba(236,242,237,.3); }
+.fn.step { border-color: rgba(43,228,106,.35); }
+.fn.ghost { border-style: dashed; color: var(--muted); }
+.ar { width: 28px; height: 1px; background: rgba(43,228,106,.7); position: relative; margin: 0 6px; flex: none; }
+.ar::after { content: ""; position: absolute; right: 0; top: -3px; width: 6px; height: 6px; border-top: 1px solid rgba(43,228,106,.9); border-right: 1px solid rgba(43,228,106,.9); transform: rotate(45deg); }
+.fl-lab { font: 400 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+.fl-branch { margin-top: 26px; padding-top: 22px; border-top: 1px dashed var(--line); }
+.gal { display: grid; gap: 22px; }
+.gal.ph-grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+.gal.lp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.gal figure { margin: 0; }
+.gal img { display: block; width: 100%; height: auto; }
+.gal.ph-grid img { filter: drop-shadow(0 18px 26px rgba(0,0,0,.45)); }
+.gal.lp-grid figure.wide { grid-column: 1 / -1; }
+.gal figcaption { font: 400 11px var(--mono); color: var(--muted); letter-spacing: .06em; margin-top: 10px; }
+.stage-card { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 30px; }
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; border-top: 1px solid var(--line); padding-top: 30px; }
+.two ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.two li { color: var(--muted); font-size: 15.5px; padding-left: 18px; position: relative; }
+.two li::before { content: ""; position: absolute; left: 0; top: .6em; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); }
+.two h3 { font-size: 22px; margin-bottom: 14px; }
+@media (max-width: 1000px) { .two { grid-template-columns: minmax(0,1fr); gap: 28px; } }
+@media (max-width: 700px) {
+  .gal.lp-grid { grid-template-columns: minmax(0,1fr); }
+  .gal.ph-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+  .flowbox { padding: 24px 18px; }
+  .fl-row { flex-direction: column; align-items: flex-start; gap: 0; }
+  .ar { width: 1px; height: 22px; margin: 6px 0 6px 22px; }
+  .ar::after { right: auto; left: -3px; top: auto; bottom: 0; transform: rotate(135deg); }
+}
+/*dscss*/.sw { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.sw div { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--surface); }
+.sw i { display: block; height: 78px; }
+.sw span { display: block; padding: 10px 12px 12px; font-size: 13px; line-height: 1.3; }
+.sw b { display: block; font: 400 12px var(--mono); color: var(--muted); margin-top: 2px; }
+.dsgrid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 22px; margin-top: 22px; }
+.dsbox { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 26px; min-width: 0; }
+.dsbox small, .sw-t { font: 400 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 14px; }
+.spec { font-size: 54px; line-height: 1; margin: 0 0 14px; }
+.spec2 { font-size: 22px; line-height: 1.25; margin: 0 0 8px; }
+.spec3 { color: var(--muted); font-size: 15px; margin: 0 0 16px; }
+.wt { display: flex; gap: 18px; flex-wrap: wrap; font-size: 16px; }
+.dsbox p.t { margin: 0; color: var(--muted); font-size: 15.5px; }
+.comps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; margin-top: 22px; }
+.comps figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 18px; }
+.comps img { display: block; max-width: 100%; height: auto; border-radius: 12px; margin: 0 auto; }
+.comps figcaption { font: 400 12px var(--mono); color: var(--muted); margin-top: 12px; }
+.ux { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 0; border-top: 1px solid var(--line); }
+.ux div { padding: 26px 28px 26px 0; border-bottom: 1px solid var(--line); }
+.ux div:nth-child(even) { padding: 26px 0 26px 28px; border-left: 1px solid var(--line); }
+.ux .n { font: 400 12px var(--mono); color: var(--accent); letter-spacing: .08em; }
+.ux h3 { font-size: 21px; margin: 6px 0 8px; }
+.ux p { margin: 0; color: var(--muted); font-size: 15.5px; max-width: 52ch; }
+@media (max-width: 1000px) { .dsgrid { grid-template-columns: minmax(0,1fr); } .ux { grid-template-columns: minmax(0,1fr); } .ux div, .ux div:nth-child(even) { padding: 22px 0; border-left: 0; } }
+/*/dscss*//*fx*/
+@keyframes pgin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+body { animation: pgin .45s cubic-bezier(.2,.7,.2,1) both; }
+body.leaving { opacity: 0; transform: translateY(-6px); transition: opacity .22s ease, transform .22s ease; }
+a, .btn, .card, .step, .links a, .tools span, .ucard, .persona, .box { transition-property: color, background-color, border-color, box-shadow, transform, opacity; transition-duration: .22s; transition-timing-function: cubic-bezier(.2,.7,.2,1); }
+.btn:active, .card:active { transform: scale(.98); }
+.btn:hover { transform: translateY(-1px); }
+.card:hover { transform: translateY(-3px); }
+.rv { opacity: 0; transform: translateY(14px); transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); }
+.rv.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { body { animation: none; } body.leaving { transition: none; opacity: 1; transform: none; } .rv { opacity: 1; transform: none; transition: none; } .btn:hover, .card:hover { transform: none; } }
+/*/fx*/
+</style>
+</head>
+<body>
+<script>
+try { if ("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch (e) {}
+document.documentElement.style.scrollBehavior = "auto";
+window.scrollTo(0, 0);
+addEventListener("load", function () { window.scrollTo(0, 0); setTimeout(function () { document.documentElement.style.scrollBehavior = ""; }, 60); });
+addEventListener("pageshow", function () { window.scrollTo(0, 0); });
+</script>
+<div class="wrap">
+  <nav aria-label="Main">
+    <a class="logo" href="index.html"><i></i>Eyob Azeze</a>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#process">Process</a></li>
+      <li><a href="index.html#more">More</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <a class="btn primary sm" href="index.html#contact">Let's talk</a>
+  </nav>
+
+  <a class="back" href="index.html#work">&larr; All work</a>
+
+  <header class="head">
+    <p class="pill">Case study · Mobile app</p>
+    <h1>Urban Access <span class="g">Map</span> App</h1>
+    <p class="lede">A digital tool that highlights accessible walking routes, so that everyone, from wheelchair users to parents with strollers, can navigate safely.</p>
+  </header>
+
+  <div class="cover"><img src="img/cover-access.jpg" alt="Four screens of the Urban Access Map App on an orange background" width="1600" height="803"></div>
+
+  <div class="meta">
+    <div><small>Role</small><b>UI/UX design</b></div>
+    <div><small>Platform</small><b>Mobile</b></div>
+    <div><small>Focus</small><b>Accessible walking routes</b></div>
+    <div><small>Tools</small><b>Figma, FigJam</b></div>
+  </div>
+
+  <section aria-labelledby="brief-h">
+    <div class="sec-head"><h2 id="brief-h">The <span class="g">brief</span></h2></div>
+    <div class="brief">
+      <div class="cell"><span class="n">01</span><h3>The problem</h3><ul><li>Sidewalks are narrow, uneven or blocked; many lack ramps and crossings feel unsafe.</li><li>Existing maps and navigation apps don't account for these limits.</li><li>How can a platform map walking routes and also evaluate their accessibility for different groups?</li></ul></div>
+      <div class="cell"><span class="n">02</span><h3>Design goals</h3><ul><li>Highlight accessible and safe walking routes across neighbourhoods.</li><li>Filters for different needs: wheelchair, elderly, stroller.</li><li>Clear visual indicators.</li><li>Real-time community feedback, with citizens flagging unsafe paths.</li></ul></div>
+      <div class="cell"><span class="n">03</span><h3>Impact</h3><ul><li><b>Citizens:</b> safer and more inclusive mobility.</li><li><b>Planners:</b> actionable insights to prioritise upgrades, such as adding ramps or fixing pavements.</li><li><b>The city:</b> equity, by letting all residents move independently.</li></ul></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="users-h">
+    <div class="sec-head"><h2 id="users-h">Target <span class="g">users</span></h2></div>
+    <div class="ucards" style="margin-top:0"><div class="ucard"><h3>Wheelchair users and persons with disabilities</h3><p>Need routes free of barriers like stairs and steep slopes.</p></div><div class="ucard"><h3>Elderly residents</h3><p>Require smoother sidewalks and safe crossings.</p></div><div class="ucard"><h3>Parents with strollers</h3><p>Prefer wider paths and pedestrian-friendly areas.</p></div><div class="ucard"><h3>City planners</h3><p>Analyse accessibility data to improve infrastructure.</p></div></div>
+  </section>
+
+  <section aria-labelledby="res-h">
+    <div class="sec-head"><h2 id="res-h">Research and <span class="g">personas</span></h2></div>
+    <p class="rs" style="margin-bottom:34px">I studied accessibility-focused projects such as Wheelmap and AccessMap Seattle to learn their best practices. Local observations in Addis Ababa revealed uneven pavements, a lack of ramps and poor pedestrian crossings.</p>
+    <div class="persona-grid"><div class="persona"><div class="top"><div class="av">S</div><h3>Selam</h3></div><div class="facts"><span>Age 32</span><span>Person with a disability</span><span>Addis Ababa</span></div><p>A wheelchair user who struggles with stairs on her daily route.</p></div><div class="persona"><div class="top"><div class="av">A</div><h3>Abebe</h3></div><div class="facts"><span>Age 70</span><span>Retired</span><span>Addis Ababa</span></div><p>An elderly resident who needs safe crossings and well-lit paths.</p></div></div>
+  </section>
+
+  <section aria-labelledby="flow-h">
+    <div class="sec-head"><h2 id="flow-h">User <span class="g">flow</span></h2><p>The path from opening the app to the main task.</p></div>
+    <div class="flowbox"><div class="fl-row"><span class="fn start">Citizen opens app</span><span class="ar" aria-hidden="true"></span><span class="fn dec">Has account?</span><span class="ar" aria-hidden="true"></span><span class="fn step">Select accessibility needs</span><span class="ar" aria-hidden="true"></span><span class="fn step">View suggested routes</span><span class="ar" aria-hidden="true"></span><span class="fn step">Navigate with turn-by-turn guidance</span><span class="ar" aria-hidden="true"></span><span class="fn step">Provide feedback</span></div><div class="fl-branch"><p class="fl-lab">No account</p><div class="fl-row"><span class="fn ghost">Quick onboarding</span><span class="ar" aria-hidden="true"></span><span class="fn ghost">Sign up</span><span class="ar" aria-hidden="true"></span><span class="fn">Continue to step 1</span></div></div></div>
+  </section>
+
+  <section aria-labelledby="screens-h">
+    <div class="sec-head"><h2 id="screens-h">Key <span class="g">screens</span></h2><p>Nine key screens: welcome, sign-in, profile, map with accessibility layers, route finder and saved routes.</p></div>
+    <div class="gal ph-grid"><figure><img src="img/access_9_1.webp" alt="Access app screen 1" width="496" height="982" loading="lazy"><figcaption>01</figcaption></figure><figure><img src="img/access_9_2.webp" alt="Access app screen 2" width="496" height="982" loading="lazy"><figcaption>02</figcaption></figure><figure><img src="img/access_9_3.webp" alt="Access app screen 3" width="497" height="982" loading="lazy"><figcaption>03</figcaption></figure><figure><img src="img/access_10_1.webp" alt="Access app screen 4" width="496" height="982" loading="lazy"><figcaption>04</figcaption></figure><figure><img src="img/access_10_2.webp" alt="Access app screen 5" width="496" height="982" loading="lazy"><figcaption>05</figcaption></figure><figure><img src="img/access_10_3.webp" alt="Access app screen 6" width="497" height="982" loading="lazy"><figcaption>06</figcaption></figure><figure><img src="img/access_11_1.webp" alt="Access app screen 7" width="496" height="982" loading="lazy"><figcaption>07</figcaption></figure><figure><img src="img/access_11_2.webp" alt="Access app screen 8" width="496" height="982" loading="lazy"><figcaption>08</figcaption></figure><figure><img src="img/access_11_3.webp" alt="Access app screen 9" width="497" height="982" loading="lazy"><figcaption>09</figcaption></figure></div>
+  </section>
+
+  <!--ds-->
+  <section id="design-system" aria-labelledby="ds-h">
+    <div class="sec-head"><h2 id="ds-h">Design <span class="g">system</span></h2><p>The visual language of the product: color, type, icons and the components that repeat.</p></div>
+    <span class="sw-t">Color</span>
+    <div class="sw"><div><i style="background:#CE3E04"></i><span>Primary<b>#CE3E04</b></span></div><div><i style="background:#D76C33"></i><span>Primary, soft<b>#D76C33</b></span></div><div><i style="background:#FCFCFD"></i><span>Surface<b>#FCFCFD</b></span></div><div><i style="background:#267314"></i><span>Route green<b>#267314</b></span></div><div><i style="background:#2376BA"></i><span>Route blue<b>#2376BA</b></span></div><div><i style="background:#D9E2E4"></i><span>Map neutral<b>#D9E2E4</b></span></div></div>
+    <div class="dsgrid">
+      <div class="dsbox"><small>Typography · Poppins</small>
+        <p class="spec" style="font-family:'Poppins',sans-serif;font-weight:600">Aa</p>
+        <p class="spec2" style="font-family:'Poppins',sans-serif;font-weight:600">Explore Cities Without Barriers</p>
+        <p class="spec3" style="font-family:'Poppins',sans-serif">Find friendly routes, save your favorite places, and move with confidence.</p>
+        <div class="wt" style="font-family:'Poppins',sans-serif"><span style="font-weight:400">Regular</span><span style="font-weight:500">Medium</span><span style="font-weight:600">Semibold</span></div></div>
+      <div class="dsbox"><small>Iconography</small><p class="t">Outline icons with an orange accent. The active tab sits in a soft orange circle, and map controls are white circular buttons that stay readable over the map.</p></div>
+    </div>
+    <div class="comps"><figure><img src="img/ds_access_nav.jpg" alt="Bottom tab bar: Home, Route Finder, Saved, Profile" loading="lazy"><figcaption>Bottom tab bar: Home, Route Finder, Saved, Profile</figcaption></figure><figure><img src="img/ds_access_search.jpg" alt="Greeting header and map search with voice input" loading="lazy"><figcaption>Greeting header and map search with voice input</figcaption></figure></div>
+  </section>
+
+  <section id="ux-principles" aria-labelledby="ux-h">
+    <div class="sec-head"><h2 id="ux-h">UX <span class="g">principles</span></h2><p>Usability principles behind the screens, and where they show up.</p></div>
+    <div class="ux"><div><span class="n">01</span><h3>Flexibility</h3><p>Routes can be filtered for different needs: wheelchair, elderly, stroller.</p></div><div><span class="n">02</span><h3>Visibility</h3><p>Color-coded route layers on the map show which paths suit which need, without reading a legend first.</p></div><div><span class="n">03</span><h3>Match with the real world</h3><p>Selecting accessibility needs comes first in the flow, then suggested routes and turn-by-turn guidance.</p></div><div><span class="n">04</span><h3>Community feedback</h3><p>People can flag unsafe paths, so the map improves with use.</p></div></div>
+  </section>
+<!--/ds-->
+
+  <section aria-labelledby="next-h">
+    <div class="sec-head"><h2 id="next-h">Reflection and <span class="g">what's next</span></h2></div>
+    <div class="two">
+      <div><h3>Future improvements</h3><ul><li>AI-based detection of sidewalk conditions from street-level imagery.</li><li>Crowdsourced route validation with gamification incentives.</li><li>Integration with public transport apps for full door-to-door accessibility.</li></ul></div>
+      <div><h3>Tools used</h3><div class="tools"><span>Figma & FigJam</span><span>Mapbox / Leaflet (inspiration)</span><span>Freepik</span><span>Unsplash</span></div></div>
+    </div>
+  </section>
+
+  <div class="next">
+    <h2>Next case study <span class="g">Affordable Housing & Income Map App</span></h2>
+    <div class="acts"><a class="btn primary" href="housing.html">Affordable Housing & Income Map App &rarr;</a><a class="btn" href="index.html#contact">Get in touch</a></div>
+  </div>
+</div>
+<script></script>
+<script></script>
+<script>/*fx*/
+(function () {
+  var rm = false; try { rm = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+  if (rm) return;
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("a[href]");
+    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+    var h = a.getAttribute("href");
+    if (!h || h.charAt(0) === "#" || /^(https?:|mailto:|tel:)/.test(h) || a.target === "_blank") return;
+    var page = h.split("#")[0], here = location.pathname.split("/").pop() || "index.html";
+    if (!page || page === here) return;
+    e.preventDefault(); document.body.classList.add("leaving");
+    setTimeout(function () { location.href = a.href; }, 200);
+  });
+  addEventListener("pageshow", function (e) { if (e.persisted) document.body.classList.remove("leaving"); });
+  try {
+    if ("IntersectionObserver" in window) {
+      var els = document.querySelectorAll("section .sec-head, .step, .persona, .ucard, .box, .job, .flowbox, .gal figure, .next, .contact");
+      var io = new IntersectionObserver(function (es) { es.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add("in"); io.unobserve(x.target); } }); }, { rootMargin: "0px 0px -8% 0px" });
+      els.forEach(function (el) { var r = el.getBoundingClientRect(); if (r.top > innerHeight) { el.classList.add("rv"); io.observe(el); } });
+    }
+  } catch (e) {}
+})();
+/*/fx*/</script>
+</body>
+</html>

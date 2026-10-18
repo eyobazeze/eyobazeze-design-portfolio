@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About Eyob Azeze</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root {
+  --bg: #0a0c0b; --surface: #111513; --surface-2: #181d1a;
+  --line: rgba(236,242,237,.09); --fg: #eef2ee; --muted: #98a39b;
+  --accent: #2be46a; --accent-ink: #04170b;
+  --head: "DM Sans", system-ui, sans-serif; --body: "Inter", system-ui, sans-serif; --mono: "DM Mono", ui-monospace, Menlo, monospace;
+  --pw: 220px; --lw: 190px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--bg); padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 400 16px/1.6 var(--body); -webkit-font-smoothing: antialiased; position: relative; overflow-x: clip;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 40px; }
+body::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 700px; background: radial-gradient(circle 420px at 88% 160px, rgba(43,228,106,.14), transparent 70%); z-index: -1; pointer-events: none; }
+a { color: inherit; text-decoration: none; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1120px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--head); margin: 0; text-wrap: balance; letter-spacing: -0.02em; }
+.g { color: var(--accent); }
+nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0; flex-wrap: wrap; }
+.logo { font: 700 18px var(--head); display: flex; align-items: center; gap: 10px; }
+.logo i { width: 10px; height: 10px; border-radius: 3px; background: var(--accent); box-shadow: 0 0 14px var(--accent); }
+nav ul { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; font-size: 14px; color: var(--muted); }
+nav ul a:hover { color: var(--fg); }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 999px; font: 500 14px var(--body); border: 1px solid var(--line); background: var(--surface); transition: border-color .2s; }
+.btn:hover { border-color: rgba(236,242,237,.3); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; box-shadow: 0 0 24px rgba(43,228,106,.25); }
+.btn.sm { padding: 9px 18px; font-size: 13px; }
+
+.back { display: inline-flex; gap: 8px; font: 400 12px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-top: 18px; }
+.back:hover { color: var(--accent); }
+.head { padding: 28px 0 40px; }
+.pill { display: inline-block; font: 500 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(43,228,106,.4); border-radius: 999px; padding: 6px 14px; margin: 0 0 20px; background: rgba(43,228,106,.06); }
+.head h1 { font-size: clamp(38px, 6.4vw, 72px); line-height: 1.04; max-width: 16ch; }
+.head p.lede { max-width: 58ch; color: var(--muted); font-size: 18px; margin: 24px 0 0; }
+.cover { border-radius: 20px; overflow: hidden; border: 1px solid var(--line); background: var(--surface-2); }
+.cover img { display: block; width: 100%; height: auto; }
+.meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 28px; border: 1px solid var(--line); border-radius: 16px; background: rgba(17,21,19,.8); }
+.meta div { padding: 18px 22px; border-right: 1px solid var(--line); }
+.meta div:last-child { border-right: 0; }
+.meta small { display: block; font: 400 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.meta b { font-weight: 500; font-size: 15px; }
+
+section { padding: 80px 0 0; }
+.sec-head { margin-bottom: 30px; max-width: 60ch; }
+.sec-head h2 { font-size: clamp(28px, 4vw, 44px); line-height: 1.08; }
+.sec-head p { margin: 12px 0 0; color: var(--muted); }
+
+.brief { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+.cell { padding: 28px 28px 8px 0; }
+.cell + .cell { padding-left: 28px; border-left: 1px solid var(--line); }
+.cell .n { font: 400 12px var(--mono); color: var(--accent); letter-spacing: .08em; }
+.cell h3 { font-size: 26px; margin: 8px 0 14px; }
+.cell ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.cell li { color: var(--muted); font-size: 15.5px; padding-left: 18px; position: relative; }
+.cell li::before { content: ""; position: absolute; left: 0; top: .6em; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); }
+.note { font: 400 12px var(--mono); color: var(--muted); margin-top: 16px; }
+.users { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.users span { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 8px 18px; font-size: 15px; }
+
+.flowhead { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
+.flowhead h3 { font-size: 28px; }
+.flowhead span { font: 400 12px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 26px; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 26px 26px 30px; min-width: 0; overflow: hidden; }
+.step .k { font: 400 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
+.step h3 { font-size: 22px; margin-bottom: 22px; }
+.fig { overflow-x: auto; padding: 6px 0 4px; }
+.ph { position: relative; width: var(--pw); margin-right: calc(var(--lw) + 44px); }
+.shot { position: relative; }
+.labs { position: absolute; left: calc(100% + 44px); top: 0; bottom: 0; width: var(--lw); }
+.ph img { display: block; width: 100%; height: auto; border-radius: 26px; border: 1px solid rgba(236,242,237,.2); box-shadow: 0 20px 40px rgba(0,0,0,.4); }
+.lead { position: absolute; left: var(--x); top: var(--y); width: calc(100% - var(--x) + 36px); border-top: 1.5px dashed rgba(43,228,106,.8); z-index: 1; }
+.pin { position: absolute; left: var(--x); top: var(--y); width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font: 500 10px/16px var(--mono); text-align: center; z-index: 2; box-shadow: 0 0 0 3px rgba(43,228,106,.25); }
+.lab { position: absolute; left: 0; top: var(--y); transform: translateY(-50%); width: var(--lw); font-size: 13px; line-height: 1.35; color: var(--fg); display: flex; gap: 8px; align-items: baseline; }
+.lab b { font: 500 11px var(--mono); color: var(--accent); flex: none; }
+
+.build { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 36px; align-items: start; border-top: 1px solid var(--line); padding-top: 30px; }
+.build p { margin: 0 0 14px; color: var(--muted); font-size: 16px; max-width: 54ch; }
+.tools { display: flex; flex-wrap: wrap; gap: 8px; }
+.tools span { font: 400 12px var(--mono); border: 1px solid rgba(43,228,106,.4); color: var(--accent); background: rgba(43,228,106,.06); border-radius: 999px; padding: 6px 14px; }
+.links { display: grid; }
+.links a { display: flex; justify-content: space-between; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.links a span { color: var(--accent); }
+.links a:first-child { border-top: 1px solid var(--line); }
+.links a:hover { color: var(--accent); }
+
+.next { margin-top: 90px; background: rgba(17,21,19,.85); border: 1px solid var(--line); border-radius: 22px; padding: 36px 40px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+.next h2 { font-size: clamp(26px, 3.6vw, 40px); line-height: 1.1; max-width: 18ch; }
+.next .acts { display: flex; gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 1000px) {
+  .steps { grid-template-columns: minmax(0, 1fr); }
+  .brief { grid-template-columns: minmax(0, 1fr); }
+  .cell, .cell + .cell { padding: 24px 0 8px; border-left: 0; border-bottom: 1px solid var(--line); }
+  .build { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 700px) {
+  nav ul { display: none; }
+  .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .meta div:nth-child(2) { border-right: 0; }
+  .meta div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  :root { --pw: 210px; }
+  .step { padding: 22px 18px 26px; }
+  .ph { width: auto; margin-right: 0; display: flex; flex-direction: column; gap: 18px; }
+  .shot { width: var(--pw); }
+  .labs { position: static; width: auto; display: grid; gap: 8px; }
+  .lab { position: static; transform: none; width: auto; font-size: 14px; }
+  .lead { display: none; }
+  .next { padding: 28px 24px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } html { scroll-behavior: auto; } }
+
+.head h1 { max-width: 18ch; }
+.exp { border-top: 1px solid var(--line); }
+.job { display: grid; grid-template-columns: 200px minmax(0,1fr); gap: 28px; padding: 28px 0; border-bottom: 1px solid var(--line); }
+.job time { font: 400 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); padding-top: 6px; }
+.job h3 { font-size: 22px; }
+.job .co { color: var(--muted); margin: 4px 0 12px; font-size: 15px; }
+.job ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.job li { color: var(--muted); font-size: 15.5px; padding-left: 18px; position: relative; max-width: 66ch; }
+.job li::before { content: ""; position: absolute; left: 0; top: .6em; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 22px; }
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 26px; }
+.box h3 { font-size: 21px; margin-bottom: 4px; }
+.box .sub { color: var(--muted); font-size: 15px; margin: 0 0 14px; }
+.box ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.box li { color: var(--muted); font-size: 15.5px; padding-left: 18px; position: relative; }
+.box li b { color: var(--fg); font-weight: 500; }
+.box li::before { content: ""; position: absolute; left: 0; top: .6em; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); }
+.skills { display: grid; gap: 22px; border-top: 1px solid var(--line); padding-top: 26px; }
+.skrow { display: grid; grid-template-columns: 200px minmax(0,1fr); gap: 28px; align-items: baseline; }
+.skrow small { font: 400 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.contact { margin-top: 90px; background: rgba(17,21,19,.85); border: 1px solid var(--line); border-radius: 22px; padding: 36px 40px; }
+.contact h2 { font-size: clamp(26px,3.6vw,40px); line-height: 1.1; margin-bottom: 20px; }
+.contact .links { max-width: 560px; }
+@media (max-width: 1000px) { .grid2 { grid-template-columns: minmax(0,1fr); } }
+@media (max-width: 700px) { .job, .skrow { grid-template-columns: minmax(0,1fr); gap: 8px; } .contact { padding: 28px 24px; } }
+/*fx*/
+@keyframes pgin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+body { animation: pgin .45s cubic-bezier(.2,.7,.2,1) both; }
+body.leaving { opacity: 0; transform: translateY(-6px); transition: opacity .22s ease, transform .22s ease; }
+a, .btn, .card, .step, .links a, .tools span, .ucard, .persona, .box { transition-property: color, background-color, border-color, box-shadow, transform, opacity; transition-duration: .22s; transition-timing-function: cubic-bezier(.2,.7,.2,1); }
+.btn:active, .card:active { transform: scale(.98); }
+.btn:hover { transform: translateY(-1px); }
+.card:hover { transform: translateY(-3px); }
+.rv { opacity: 0; transform: translateY(14px); transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); }
+.rv.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { body { animation: none; } body.leaving { transition: none; opacity: 1; transform: none; } .rv { opacity: 1; transform: none; transition: none; } .btn:hover, .card:hover { transform: none; } }
+/*/fx*/
+</style>
+</head>
+<body>
+<script>
+try { if ("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch (e) {}
+document.documentElement.style.scrollBehavior = "auto";
+window.scrollTo(0, 0);
+addEventListener("load", function () { window.scrollTo(0, 0); setTimeout(function () { document.documentElement.style.scrollBehavior = ""; }, 60); });
+addEventListener("pageshow", function () { window.scrollTo(0, 0); });
+</script>
+<div class="wrap">
+  <nav aria-label="Main">
+    <a class="logo" href="index.html"><i></i>Eyob Azeze</a>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#process">Process</a></li>
+      <li><a href="index.html#more">More</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <a class="btn primary sm" href="#contact">Let's talk</a>
+  </nav>
+  <header class="head" style="padding-top:56px">
+    <p class="pill">About · Addis Ababa, Ethiopia</p>
+    <h1>Design that <span class="g">works</span> before it ships.</h1>
+    <p class="lede">I'm a UI/UX designer with a computer science background. I design end-to-end products, from research and wireframes to high-fidelity interfaces and prototypes, and I can build the front end myself. I like solving real problems, with a growing focus on digital platforms and the systems behind them.</p>
+  </header>
+
+  <section aria-labelledby="exp-h">
+    <div class="sec-head"><h2 id="exp-h">Work <span class="g">experience</span></h2></div>
+    <div class="exp"><div class="job"><time>Apr 2026 – Present</time><div><h3>UI/UX Designer</h3><p class="co">A-Trip</p><ul><li>Design mobile and web experiences for rental and meter taxi services.</li><li>Create passenger, driver and admin interfaces covering booking, rides and fleet workflows.</li><li>Develop user flows, wireframes, high-fidelity UI and interactive prototypes.</li></ul></div></div><div class="job"><time>Sep 2025 – Present</time><div><h3>Freelance UI/UX Designer</h3><p class="co">Self-employed</p><ul><li>Design user-centred interfaces for mobile and web applications across multiple domains.</li><li>Conduct user research, usability testing and iterative prototyping.</li><li>Work with developers and stakeholders to turn complex system requirements into clear user workflows.</li></ul></div></div><div class="job"><time>Jan 2025 – Aug 2025</time><div><h3>UI/UX Designer</h3><p class="co">Weyra Tech</p><ul><li>Designed interfaces for web and mobile applications in a collaborative product environment.</li><li>Took part in agile workflows, design reviews and cross-functional product planning.</li></ul></div></div><div class="job"><time>Aug 2024 – Dec 2024</time><div><h3>UI/UX Design Intern</h3><p class="co">Paragon Labs</p><ul><li>Assisted with user research, wireframing and prototyping.</li><li>Helped develop user flows and interface components for early-stage products.</li></ul></div></div></div>
+  </section>
+
+  <section aria-labelledby="edu-h">
+    <div class="sec-head"><h2 id="edu-h">Education and <span class="g">awards</span></h2></div>
+    <div class="grid2">
+      <div class="box"><h3>BSc in Computer Science</h3><p class="sub">Microlink Information Technology College · Apr 2021 – Mar 2025</p>
+        <ul><li>CGPA 3.94 / 4.00, Very Great Distinction.</li><li>Gold Medal, ranked 1st in the Computer Science department.</li></ul></div>
+      <div class="box"><h3>Certifications and recognition</h3>
+        <ul><li><b>Google UX Design Specialization</b>, Google, Oct 2023</li><li><b>Programming with JavaScript</b>, Meta, Nov 2023</li><li><b>React Basics</b>, Meta, Feb 2024</li><li><b>Certificate of Achievement for Outstanding Project</b>, First-Time Parents Guidance App, 2nd among all CS projects</li></ul></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="sk-h">
+    <div class="sec-head"><h2 id="sk-h">Skills and <span class="g">tools</span></h2></div>
+    <div class="skills"><div class="skrow"><small>Design and prototyping</small><div class="tools"><span>Figma</span><span>Framer</span><span>Adobe XD</span><span>design systems</span><span>interactive prototyping</span></div></div><div class="skrow"><small>Research and testing</small><div class="tools"><span>User interviews</span><span>usability testing</span><span>journey mapping</span><span>iterative design</span></div></div><div class="skrow"><small>Front-end and data</small><div class="tools"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>React</span><span>Python</span><span>SQL</span><span>Pandas</span><span>GeoPandas</span></div></div><div class="skrow"><small>Tools</small><div class="tools"><span>Git / GitHub</span><span>Conda</span><span>Tableau</span></div></div><div class="skrow"><small>Languages</small><div class="tools"><span>Amharic (native)</span><span>English (fluent)</span></div></div></div>
+  </section>
+
+  <div class="contact" id="contact">
+    <h2>Let's <span class="g">talk</span></h2>
+    <div class="links">
+      <a href="mailto:eyobazeze9@gmail.com">eyobazeze9@gmail.com <span>&nearr;</span></a>
+      <a href="https://www.linkedin.com/in/eyobazeze/">LinkedIn <span>&nearr;</span></a>
+      <a href="https://www.figma.com/@eyobazeze">Figma <span>&nearr;</span></a>
+      <a href="https://github.com/eyobazeze">GitHub <span>&nearr;</span></a>
+      <a href="https://eyobazeze.medium.com/">Medium <span>&nearr;</span></a>
+    </div>
+  </div>
+</div>
+<script></script>
+<script></script>
+<script>/*fx*/
+(function () {
+  var rm = false; try { rm = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+  if (rm) return;
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("a[href]");
+    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+    var h = a.getAttribute("href");
+    if (!h || h.charAt(0) === "#" || /^(https?:|mailto:|tel:)/.test(h) || a.target === "_blank") return;
+    var page = h.split("#")[0], here = location.pathname.split("/").pop() || "index.html";
+    if (!page || page === here) return;
+    e.preventDefault(); document.body.classList.add("leaving");
+    setTimeout(function () { location.href = a.href; }, 200);
+  });
+  addEventListener("pageshow", function (e) { if (e.persisted) document.body.classList.remove("leaving"); });
+  try {
+    if ("IntersectionObserver" in window) {
+      var els = document.querySelectorAll("section .sec-head, .step, .persona, .ucard, .box, .job, .flowbox, .gal figure, .next, .contact");
+      var io = new IntersectionObserver(function (es) { es.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add("in"); io.unobserve(x.target); } }); }, { rootMargin: "0px 0px -8% 0px" });
+      els.forEach(function (el) { var r = el.getBoundingClientRect(); if (r.top > innerHeight) { el.classList.add("rv"); io.observe(el); } });
+    }
+  } catch (e) {}
+})();
+/*/fx*/</script>
+</body>
+</html>

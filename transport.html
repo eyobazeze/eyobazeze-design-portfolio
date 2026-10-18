@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Smart Public Transport App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root {
+  --bg: #0a0c0b; --surface: #111513; --surface-2: #181d1a;
+  --line: rgba(236,242,237,.09); --fg: #eef2ee; --muted: #98a39b;
+  --accent: #2be46a; --accent-ink: #04170b;
+  --head: "DM Sans", system-ui, sans-serif; --body: "Inter", system-ui, sans-serif; --mono: "DM Mono", ui-monospace, Menlo, monospace;
+  --pw: 220px; --lw: 190px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--bg); padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 400 16px/1.6 var(--body); -webkit-font-smoothing: antialiased; position: relative; overflow-x: clip;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 40px; }
+body::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 700px; background: radial-gradient(circle 420px at 88% 160px, rgba(43,228,106,.14), transparent 70%); z-index: -1; pointer-events: none; }
+a { color: inherit; text-decoration: none; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1120px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--head); margin: 0; text-wrap: balance; letter-spacing: -0.02em; }
+.g { color: var(--accent); }
+nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0; flex-wrap: wrap; }
+.logo { font: 700 18px var(--head); display: flex; align-items: center; gap: 10px; }
+.logo i { width: 10px; height: 10px; border-radius: 3px; background: var(--accent); box-shadow: 0 0 14px var(--accent); }
+nav ul { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; font-size: 14px; color: var(--muted); }
+nav ul a:hover { color: var(--fg); }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 999px; font: 500 14px var(--body); border: 1px solid var(--line); background: var(--surface); transition: border-color .2s; }
+.btn:hover { border-color: rgba(236,242,237,.3); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; box-shadow: 0 0 24px rgba(43,228,106,.25); }
+.btn.sm { padding: 9px 18px; font-size: 13px; }
+
+.back { display: inline-flex; gap: 8px; font: 400 12px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-top: 18px; }
+.back:hover { color: var(--accent); }
+.head { padding: 28px 0 40px; }
+.pill { display: inline-block; font: 500 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(43,228,106,.4); border-radius: 999px; padding: 6px 14px; margin: 0 0 20px; background: rgba(43,228,106,.06); }
+.head h1 { font-size: clamp(38px, 6.4vw, 72px); line-height: 1.04; max-width: 16ch; }
+.head p.lede { max-width: 58ch; color: var(--muted); font-size: 18px; margin: 24px 0 0; }
+.cover { border-radius: 20px; overflow: hidden; border: 1px solid var(--line); background: var(--surface-2); }
+.cover img { display: block; width: 100%; height: auto; }
+.meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 28px; border: 1px solid var(--line); border-radius: 16px; background: rgba(17,21,19,.8); }
+.meta div { padding: 18px 22px; border-right: 1px solid var(--line); }
+.meta div:last-child { border-right: 0; }
+.meta small { display: block; font: 400 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.meta b { font-weight: 500; font-size: 15px; }
+
+section { padding: 80px 0 0; }
+.sec-head { margin-bottom: 30px; max-width: 60ch; }
+.sec-head h2 { font-size: clamp(28px, 4vw, 44px); line-height: 1.08; }
+.sec-head p { margin: 12px 0 0; color: var(--muted); }
+
+.brief { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+.cell { padding: 28px 28px 8px 0; }
+.cell + .cell { padding-left: 28px; border-left: 1px solid var(--line); }
+.cell .n { font: 400 12px var(--mono); color: var(--accent); letter-spacing: .08em; }
+.cell h3 { font-size: 26px; margin: 8px 0 14px; }
+.cell ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.cell li { color: var(--muted); font-size: 15.5px; padding-left: 18px; position: relative; }
+.cell li::before { content: ""; position: absolute; left: 0; top: .6em; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); }
+.note { font: 400 12px var(--mono); color: var(--muted); margin-top: 16px; }
+.users { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.users span { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 8px 18px; font-size: 15px; }
+
+.flowhead { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
+.flowhead h3 { font-size: 28px; }
+.flowhead span { font: 400 12px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 26px; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 26px 26px 30px; min-width: 0; overflow: hidden; }
+.step .k { font: 400 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
+.step h3 { font-size: 22px; margin-bottom: 22px; }
+.fig { overflow-x: auto; padding: 6px 0 4px; }
+.ph { position: relative; width: var(--pw); margin-right: calc(var(--lw) + 44px); }
+.shot { position: relative; }
+.labs { position: absolute; left: calc(100% + 44px); top: 0; bottom: 0; width: var(--lw); }
+.ph img { display: block; width: 100%; height: auto; border-radius: 26px; border: 1px solid rgba(236,242,237,.2); box-shadow: 0 20px 40px rgba(0,0,0,.4); }
+.lead { position: absolute; left: var(--x); top: var(--y); width: calc(100% - var(--x) + 36px); border-top: 1.5px dashed rgba(43,228,106,.8); z-index: 1; }
+.pin { position: absolute; left: var(--x); top: var(--y); width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font: 500 10px/16px var(--mono); text-align: center; z-index: 2; box-shadow: 0 0 0 3px rgba(43,228,106,.25); }
+.lab { position: absolute; left: 0; top: var(--y); transform: translateY(-50%); width: var(--lw); font-size: 13px; line-height: 1.35; color: var(--fg); display: flex; gap: 8px; align-items: baseline; }
+.lab b { font: 500 11px var(--mono); color: var(--accent); flex: none; }
+
+.build { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 36px; align-items: start; border-top: 1px solid var(--line); padding-top: 30px; }
+.build p { margin: 0 0 14px; color: var(--muted); font-size: 16px; max-width: 54ch; }
+.tools { display: flex; flex-wrap: wrap; gap: 8px; }
+.tools span { font: 400 12px var(--mono); border: 1px solid rgba(43,228,106,.4); color: var(--accent); background: rgba(43,228,106,.06); border-radius: 999px; padding: 6px 14px; }
+.links { display: grid; }
+.links a { display: flex; justify-content: space-between; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.links a span { color: var(--accent); }
+.links a:first-child { border-top: 1px solid var(--line); }
+.links a:hover { color: var(--accent); }
+
+.next { margin-top: 90px; background: rgba(17,21,19,.85); border: 1px solid var(--line); border-radius: 22px; padding: 36px 40px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+.next h2 { font-size: clamp(26px, 3.6vw, 40px); line-height: 1.1; max-width: 18ch; }
+.next .acts { display: flex; gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 1000px) {
+  .steps { grid-template-columns: minmax(0, 1fr); }
+  .brief { grid-template-columns: minmax(0, 1fr); }
+  .cell, .cell + .cell { padding: 24px 0 8px; border-left: 0; border-bottom: 1px solid var(--line); }
+  .build { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 700px) {
+  nav ul { display: none; }
+  .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .meta div:nth-child(2) { border-right: 0; }
+  .meta div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  :root { --pw: 210px; }
+  .step { padding: 22px 18px 26px; }
+  .ph { width: auto; margin-right: 0; display: flex; flex-direction: column; gap: 18px; }
+  .shot { width: var(--pw); }
+  .labs { position: static; width: auto; display: grid; gap: 8px; }
+  .lab { position: static; transform: none; width: auto; font-size: 14px; }
+  .lead { display: none; }
+  .next { padding: 28px 24px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } html { scroll-behavior: auto; } }
+/*dscss*/.sw { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.sw div { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--surface); }
+.sw i { display: block; height: 78px; }
+.sw span { display: block; padding: 10px 12px 12px; font-size: 13px; line-height: 1.3; }
+.sw b { display: block; font: 400 12px var(--mono); color: var(--muted); margin-top: 2px; }
+.dsgrid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 22px; margin-top: 22px; }
+.dsbox { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 26px; min-width: 0; }
+.dsbox small, .sw-t { font: 400 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 14px; }
+.spec { font-size: 54px; line-height: 1; margin: 0 0 14px; }
+.spec2 { font-size: 22px; line-height: 1.25; margin: 0 0 8px; }
+.spec3 { color: var(--muted); font-size: 15px; margin: 0 0 16px; }
+.wt { display: flex; gap: 18px; flex-wrap: wrap; font-size: 16px; }
+.dsbox p.t { margin: 0; color: var(--muted); font-size: 15.5px; }
+.comps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; margin-top: 22px; }
+.comps figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 18px; }
+.comps img { display: block; max-width: 100%; height: auto; border-radius: 12px; margin: 0 auto; }
+.comps figcaption { font: 400 12px var(--mono); color: var(--muted); margin-top: 12px; }
+.ux { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 0; border-top: 1px solid var(--line); }
+.ux div { padding: 26px 28px 26px 0; border-bottom: 1px solid var(--line); }
+.ux div:nth-child(even) { padding: 26px 0 26px 28px; border-left: 1px solid var(--line); }
+.ux .n { font: 400 12px var(--mono); color: var(--accent); letter-spacing: .08em; }
+.ux h3 { font-size: 21px; margin: 6px 0 8px; }
+.ux p { margin: 0; color: var(--muted); font-size: 15.5px; max-width: 52ch; }
+@media (max-width: 1000px) { .dsgrid { grid-template-columns: minmax(0,1fr); } .ux { grid-template-columns: minmax(0,1fr); } .ux div, .ux div:nth-child(even) { padding: 22px 0; border-left: 0; } }
+/*/dscss*//*fx*/
+@keyframes pgin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+body { animation: pgin .45s cubic-bezier(.2,.7,.2,1) both; }
+body.leaving { opacity: 0; transform: translateY(-6px); transition: opacity .22s ease, transform .22s ease; }
+a, .btn, .card, .step, .links a, .tools span, .ucard, .persona, .box { transition-property: color, background-color, border-color, box-shadow, transform, opacity; transition-duration: .22s; transition-timing-function: cubic-bezier(.2,.7,.2,1); }
+.btn:active, .card:active { transform: scale(.98); }
+.btn:hover { transform: translateY(-1px); }
+.card:hover { transform: translateY(-3px); }
+.rv { opacity: 0; transform: translateY(14px); transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); }
+.rv.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { body { animation: none; } body.leaving { transition: none; opacity: 1; transform: none; } .rv { opacity: 1; transform: none; transition: none; } .btn:hover, .card:hover { transform: none; } }
+/*/fx*/
+</style>
+</head>
+<body>
+<script>
+try { if ("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch (e) {}
+document.documentElement.style.scrollBehavior = "auto";
+window.scrollTo(0, 0);
+addEventListener("load", function () { window.scrollTo(0, 0); setTimeout(function () { document.documentElement.style.scrollBehavior = ""; }, 60); });
+addEventListener("pageshow", function () { window.scrollTo(0, 0); });
+</script>
+<div class="wrap">
+  <nav aria-label="Main">
+    <a class="logo" href="index.html"><i></i>Eyob Azeze</a>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#process">Process</a></li>
+      <li><a href="index.html#more">More</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <a class="btn primary sm" href="index.html#contact">Let's talk</a>
+  </nav>
+
+  <a class="back" href="index.html#work">&larr; All work</a>
+
+  <header class="head">
+    <p class="pill">Case study · Mobile app</p>
+    <h1>Smart Public <span class="g">Transport</span> App</h1>
+    <p class="lede">A mobile app that makes commuting in the city faster, more reliable and less stressful. It combines real-time bus, taxi and train tracking with smart trip planning, so people can find the best route, save frequent trips and get live updates before and during travel.</p>
+  </header>
+
+  <div class="cover"><img src="img/cover-transport.jpg" alt="Four screens of the Smart Public Transport App: splash, home, route planner and live map" width="1600" height="803"></div>
+
+  <div class="meta">
+    <div><small>Role</small><b>UI/UX design, front-end build</b></div>
+    <div><small>Platform</small><b>Mobile</b></div>
+    <div><small>Scope</small><b>35 screens</b></div>
+    <div><small>Tools</small><b>Figma, React Native, Expo</b></div>
+  </div>
+
+  <section aria-labelledby="brief-h">
+    <div class="sec-head"><h2 id="brief-h">The <span class="g">brief</span></h2></div>
+    <div class="brief">
+      <div class="cell"><span class="n">01</span><h3>The problem</h3>
+        <ul><li>No real-time transport updates.</li><li>Confusing route options.</li><li>Poor coordination between buses, taxis and trains.</li></ul></div>
+      <div class="cell"><span class="n">02</span><h3>The solution</h3>
+        <ul><li>Live GPS tracking of buses, taxis and trains.</li><li>A multi-modal trip planner with fare estimates.</li><li>Saved favourite routes, with alerts for delays and arrivals.</li></ul></div>
+      <div class="cell"><span class="n">03</span><h3>Intended impact</h3>
+        <ul><li>Save time per commute.</li><li>Reduce missed rides.</li><li>More people choose public transport.</li></ul></div>
+    </div>
+    <div class="sec-head" style="margin-top:44px;margin-bottom:0"><h3 style="font-size:26px">Target users</h3></div>
+    <div class="users"><span>Daily commuters</span><span>Students</span><span>Tourists</span><span>New residents</span></div>
+  </section>
+
+  <section id="trip" aria-labelledby="trip-h">
+    <div class="sec-head"><h2 id="trip-h">Flow 1: <span class="g">trip planning</span></h2>
+      <p>From entering a destination to arriving, in five screens. Numbers on each screen match the notes beside it.</p></div>
+    <div class="steps">
+      <article class="step"><p class="k">Step 01</p><h3>Start a trip</h3><div class="fig"><div class="ph"><div class="shot"><img src="img/tp1.jpg" alt="Home screen with the trip planner" width="456" height="991" loading="lazy"><span class="lead" style="--x:39.9%;--y:34.0%"></span><span class="pin" style="--x:39.9%;--y:34.0%">1</span><span class="lead" style="--x:53.9%;--y:40.4%"></span><span class="pin" style="--x:53.9%;--y:40.4%">2</span><span class="lead" style="--x:59.9%;--y:48.0%"></span><span class="pin" style="--x:59.9%;--y:48.0%">3</span></div><div class="labs"><span class="lab" style="--y:34.0%"><b>1</b>Enter your current location</span><span class="lab" style="--y:40.4%"><b>2</b>Enter your destination</span><span class="lab" style="--y:48.0%"><b>3</b>Plan your trip</span></div></div></div></article>
+      <article class="step"><p class="k">Step 02</p><h3>Review the trip plan</h3><div class="fig"><div class="ph"><div class="shot"><img src="img/tp2.jpg" alt="Route planner showing the trip plan on a map" width="456" height="991" loading="lazy"><span class="lead" style="--x:19.1%;--y:51.6%"></span><span class="pin" style="--x:19.1%;--y:51.6%">1</span><span class="lead" style="--x:56.4%;--y:78.1%"></span><span class="pin" style="--x:56.4%;--y:78.1%">2</span><span class="lead" style="--x:83.8%;--y:85.3%"></span><span class="pin" style="--x:83.8%;--y:85.3%">3</span><span class="lead" style="--x:93.2%;--y:91.0%"></span><span class="pin" style="--x:93.2%;--y:91.0%">4</span></div><div class="labs"><span class="lab" style="--y:51.6%"><b>1</b>Your trip plan</span><span class="lab" style="--y:78.1%"><b>2</b>Drag up for details</span><span class="lab" style="--y:85.3%"><b>3</b>Choose transport</span><span class="lab" style="--y:91.0%"><b>4</b>Save or share route</span></div></div></div></article>
+      <article class="step"><p class="k">Step 03</p><h3>Refine and start</h3><div class="fig"><div class="ph"><div class="shot"><img src="img/tp3.jpg" alt="Route planner with the sheet expanded" width="456" height="991" loading="lazy"><span class="lead" style="--x:87.3%;--y:34.7%"></span><span class="pin" style="--x:87.3%;--y:34.7%">1</span><span class="lead" style="--x:80.3%;--y:51.4%"></span><span class="pin" style="--x:80.3%;--y:51.4%">2</span><span class="lead" style="--x:80.3%;--y:64.3%"></span><span class="pin" style="--x:80.3%;--y:64.3%">3</span><span class="lead" style="--x:80.0%;--y:92.6%"></span><span class="pin" style="--x:80.0%;--y:92.6%">4</span></div><div class="labs"><span class="lab" style="--y:34.7%"><b>1</b>Collapse the panel</span><span class="lab" style="--y:51.4%"><b>2</b>Sort and filter routes</span><span class="lab" style="--y:64.3%"><b>3</b>More information</span><span class="lab" style="--y:92.6%"><b>4</b>Start the trip</span></div></div></div></article>
+      <article class="step"><p class="k">Step 04</p><h3>On the way</h3><div class="fig"><div class="ph"><div class="shot"><img src="img/tp4.jpg" alt="Navigation screen while the trip is under way" width="456" height="991" loading="lazy"><span class="lead" style="--x:92.5%;--y:70.6%"></span><span class="pin" style="--x:92.5%;--y:70.6%">1</span><span class="lead" style="--x:92.5%;--y:78.1%"></span><span class="pin" style="--x:92.5%;--y:78.1%">2</span><span class="lead" style="--x:14.0%;--y:90.3%"></span><span class="pin" style="--x:14.0%;--y:90.3%">3</span></div><div class="labs"><span class="lab" style="--y:70.6%"><b>1</b>Track the vehicle</span><span class="lab" style="--y:78.1%"><b>2</b>Show the direction</span><span class="lab" style="--y:90.3%"><b>3</b>End the trip</span></div></div></div></article>
+      <article class="step"><p class="k">Step 05</p><h3>Arrival</h3><div class="fig"><div class="ph"><div class="shot"><img src="img/tp5.jpg" alt="Arrival message at the destination" width="456" height="991" loading="lazy"><span class="lead" style="--x:92.5%;--y:29.7%"></span><span class="pin" style="--x:92.5%;--y:29.7%">1</span></div><div class="labs"><span class="lab" style="--y:29.7%"><b>1</b>Trip completed</span></div></div></div></article>
+    </div>
+  </section>
+
+  <section id="live" aria-labelledby="live-h">
+    <div class="sec-head"><h2 id="live-h">Flow 2: <span class="g">live tracking</span></h2>
+      <p>Find a vehicle on the map and follow it in real time, in four screens.</p></div>
+    <div class="steps">
+      <article class="step"><p class="k">Step 01</p><h3>Find a vehicle</h3><div class="fig"><div class="ph"><div class="shot"><img src="img/lt1.jpg" alt="Live Map search form" width="456" height="991" loading="lazy"><span class="lead" style="--x:45.4%;--y:17.9%"></span><span class="pin" style="--x:45.4%;--y:17.9%">1</span><span class="lead" style="--x:53.9%;--y:23.6%"></span><span class="pin" style="--x:53.9%;--y:23.6%">2</span><span class="lead" style="--x:89.0%;--y:31.4%"></span><span class="pin" style="--x:89.0%;--y:31.4%">3</span><span class="lead" style="--x:72.6%;--y:39.1%"></span><span class="pin" style="--x:72.6%;--y:39.1%">4</span></div><div class="labs"><span class="lab" style="--y:17.9%"><b>1</b>Enter your location</span><span class="lab" style="--y:23.6%"><b>2</b>Enter your destination</span><span class="lab" style="--y:31.4%"><b>3</b>Choose transport type</span><span class="lab" style="--y:39.1%"><b>4</b>Find the vehicle</span></div></div></div></article>
+      <article class="step"><p class="k">Step 02</p><h3>Choose a bus</h3><div class="fig"><div class="ph"><div class="shot"><img src="img/lt2.jpg" alt="Live Map with nearby buses" width="456" height="991" loading="lazy"><span class="lead" style="--x:45.4%;--y:79.8%"></span><span class="pin" style="--x:45.4%;--y:79.8%">1</span></div><div class="labs"><span class="lab" style="--y:79.8%"><b>1</b>Tap a bus to track it</span></div></div></div></article>
+      <article class="step"><p class="k">Step 03</p><h3>Start tracking</h3><div class="fig"><div class="ph"><div class="shot"><img src="img/lt3.jpg" alt="Live Map with a bus selected" width="456" height="991" loading="lazy"><span class="lead" style="--x:60.1%;--y:73.7%"></span><span class="pin" style="--x:60.1%;--y:73.7%">1</span></div><div class="labs"><span class="lab" style="--y:73.7%"><b>1</b>Tap Track to follow it</span></div></div></div></article>
+      <article class="step"><p class="k">Step 04</p><h3>Bus is tracked</h3><div class="fig"><div class="ph"><div class="shot"><img src="img/lt4.jpg" alt="Live Map following the chosen bus" width="456" height="991" loading="lazy"><span class="lead" style="--x:45.4%;--y:79.7%"></span><span class="pin" style="--x:45.4%;--y:79.7%">1</span></div><div class="labs"><span class="lab" style="--y:79.7%"><b>1</b>The bus is now tracked</span></div></div></div></article>
+    </div>
+  </section>
+
+  <!--ds-->
+  <section id="design-system" aria-labelledby="ds-h">
+    <div class="sec-head"><h2 id="ds-h">Design <span class="g">system</span></h2><p>The visual language of the product: color, type, icons and the components that repeat.</p></div>
+    <span class="sw-t">Color</span>
+    <div class="sw"><div><i style="background:#0494F9"></i><span>Primary<b>#0494F9</b></span></div><div><i style="background:#389AD6"></i><span>Primary, soft<b>#389AD6</b></span></div><div><i style="background:#EFF1F4"></i><span>Background<b>#EFF1F4</b></span></div><div><i style="background:#FEFEFE"></i><span>Surface<b>#FEFEFE</b></span></div><div><i style="background:#CEA94C"></i><span>Gold accent<b>#CEA94C</b></span></div><div><i style="background:#E30E0E"></i><span>Pin red<b>#E30E0E</b></span></div></div>
+    <div class="dsgrid">
+      <div class="dsbox"><small>Typography · Inter</small>
+        <p class="spec" style="font-family:'Inter',sans-serif;font-weight:600">Aa</p>
+        <p class="spec2" style="font-family:'Inter',sans-serif;font-weight:600">Plan. Ride. Arrive.</p>
+        <p class="spec3" style="font-family:'Inter',sans-serif">Track public transport in real time.</p>
+        <div class="wt" style="font-family:'Inter',sans-serif"><span style="font-weight:400">Regular</span><span style="font-weight:500">Medium</span><span style="font-weight:600">Semibold</span></div></div>
+      <div class="dsbox"><small>Iconography</small><p class="t">Outline icons for navigation (home, live tracker, trips, settings). Transport modes use white glyphs on blue rounded squares, so taxi, bus and train read at a glance. The active tab turns blue.</p></div>
+    </div>
+    <div class="comps"><figure><img src="img/ds_transport_nav.jpg" alt="Bottom tab bar, four items with labels" loading="lazy"><figcaption>Bottom tab bar, four items with labels</figcaption></figure><figure><img src="img/ds_transport_cards.jpg" alt="Recent trip cards with mode icon, route, distance, time and fare" loading="lazy"><figcaption>Recent trip cards with mode icon, route, distance, time and fare</figcaption></figure></div>
+  </section>
+
+  <section id="ux-principles" aria-labelledby="ux-h">
+    <div class="sec-head"><h2 id="ux-h">UX <span class="g">principles</span></h2><p>Usability principles behind the screens, and where they show up.</p></div>
+    <div class="ux"><div><span class="n">01</span><h3>Visibility of system status</h3><p>Live vehicle positions, minutes-to-arrival tags on the map and a clear tracked state keep riders informed while they travel.</p></div><div><span class="n">02</span><h3>Recognition over recall</h3><p>Recent trips and saved routes put frequent journeys one tap away, so people don't retype them.</p></div><div><span class="n">03</span><h3>User control</h3><p>The trip sheet can be collapsed, a route can be saved or shared, and a trip can be ended at any time.</p></div><div><span class="n">04</span><h3>Consistency</h3><p>One tab bar, one blue accent and one icon style across the home, planner and live map.</p></div></div>
+  </section>
+<!--/ds-->
+
+  <section aria-labelledby="build-h">
+    <div class="sec-head"><h2 id="build-h">From design to <span class="g">code</span></h2></div>
+    <div class="build">
+      <div>
+        <p>I designed all 35 screens in Figma, then built the app in React Native with Expo, using free tools only.</p>
+        <div class="tools"><span>Figma</span><span>React Native</span><span>Expo</span><span>GitHub</span></div>
+      </div>
+      <div class="links">
+        <a href="https://www.figma.com/@eyobazeze">See the full design in Figma <span>&nearr;</span></a>
+        <a href="https://github.com/eyobazeze">See the code on GitHub <span>&nearr;</span></a>
+      </div>
+    </div>
+  </section>
+
+  <div class="next">
+    <h2>More <span class="g">case studies</span></h2>
+    <div class="acts"><a class="btn primary" href="index.html#work">Back to all work</a><a class="btn" href="index.html#contact">Get in touch</a></div>
+  </div>
+</div>
+<script></script>
+<script></script>
+<script>/*fx*/
+(function () {
+  var rm = false; try { rm = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+  if (rm) return;
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("a[href]");
+    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+    var h = a.getAttribute("href");
+    if (!h || h.charAt(0) === "#" || /^(https?:|mailto:|tel:)/.test(h) || a.target === "_blank") return;
+    var page = h.split("#")[0], here = location.pathname.split("/").pop() || "index.html";
+    if (!page || page === here) return;
+    e.preventDefault(); document.body.classList.add("leaving");
+    setTimeout(function () { location.href = a.href; }, 200);
+  });
+  addEventListener("pageshow", function (e) { if (e.persisted) document.body.classList.remove("leaving"); });
+  try {
+    if ("IntersectionObserver" in window) {
+      var els = document.querySelectorAll("section .sec-head, .step, .persona, .ucard, .box, .job, .flowbox, .gal figure, .next, .contact");
+      var io = new IntersectionObserver(function (es) { es.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add("in"); io.unobserve(x.target); } }); }, { rootMargin: "0px 0px -8% 0px" });
+      els.forEach(function (el) { var r = el.getBoundingClientRect(); if (r.top > innerHeight) { el.classList.add("rv"); io.observe(el); } });
+    }
+  } catch (e) {}
+})();
+/*/fx*/</script>
+</body>
+</html>
