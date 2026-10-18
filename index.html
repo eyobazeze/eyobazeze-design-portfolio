@@ -1,6 +1,12 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Eyob Azeze, UI/UX designer. Case studies, design systems and mobile and web product work.">
 <title>Eyob Azeze Portfolio</title>
+
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Inter:wght@400;500;600&display=swap">
@@ -120,13 +126,14 @@ section { padding: 80px 0 8px; position: relative; }
 .card.half { grid-column: span 6; }
 .media { position: relative; background: var(--surface-2); overflow: hidden; }
 .media img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.card.wide .media { flex: none; min-width: 0; aspect-ratio: 1600 / 615; }
+.card.wide .media { flex: none; min-width: 0; aspect-ratio: 1600 / 569; }
 .card.half .media { aspect-ratio: 16 / 9.4; }
 .body { padding: 24px 26px 26px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
-.card.wide .body { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); column-gap: 48px; row-gap: 12px; align-items: start; padding: 26px 34px 28px; }
+.card.wide .body { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); column-gap: 56px; row-gap: 10px; align-items: start; padding: 24px 34px 28px; }
 .card.wide .body > * { grid-column: 1; }
-.card.wide .body .meta { grid-column: 2; grid-row: 2; align-self: end; }
-.card.wide .body .more { grid-column: 2; grid-row: 3; align-self: end; }
+.card.wide .body .aside { grid-column: 2; grid-row: 1 / span 3; align-self: stretch; display: flex; flex-direction: column; justify-content: space-between; gap: 18px; padding-left: 34px; border-left: 1px solid var(--line); }
+.card.wide .body .aside .meta { margin: 0; }
+.card.wide h3 { font-size: 30px; }
 .idx { font: 400 11px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
 .idx b { color: var(--accent); font-weight: 500; }
 .card h3 { font-size: 24px; line-height: 1.15; }
@@ -186,7 +193,8 @@ footer li em { color: var(--muted); font-style: normal; }
   .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
   .card.wide .in { flex-direction: column; }
   .card.wide .body { display: flex; }
-  .card.wide .body > *, .card.wide .body .meta, .card.wide .body .more { grid-column: auto; grid-row: auto; }
+  .card.wide .body > *, .card.wide .body .aside { grid-column: auto; grid-row: auto; }
+  .card.wide .body .aside { border-left: 0; padding-left: 0; gap: 14px; }
   .card.half { grid-column: span 12; }
   .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 44px; }
   .flow::before { display: none; }
@@ -240,6 +248,9 @@ a, .btn, .card, .step, .links a, .tools span, .ucard, .persona, .box { transitio
 @media (prefers-reduced-motion: reduce) { body { animation: none; } body.leaving { transition: none; opacity: 1; transform: none; } .rv { opacity: 1; transform: none; transition: none; } .btn:hover, .card:hover { transform: none; } }
 /*/fx*/
 </style>
+</head>
+<body>
+
 
 <svg class="canvas" viewBox="0 0 1440 980" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
   <defs><radialGradient id="gl" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#2be46a" stop-opacity=".15"/><stop offset="1" stop-color="#2be46a" stop-opacity="0"/></radialGradient></defs>
@@ -285,7 +296,7 @@ a, .btn, .card, .step, .links a, .tools span, .ucard, .persona, .box { transitio
       <div class="frame f1"><p class="lab">Learning app</p><img src="img/h_learn.jpg" alt="Learning app home screen with a daily goal, a continue-learning card and a bottom tab bar" width="428" height="926"></div>
       <div class="frame f2"><p class="lab">Food delivery</p><img src="img/h_food.jpg" alt="Food delivery app home screen with a promotion banner, food categories and popular restaurants" width="428" height="926">
         <div class="sel" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="sel-tag">Food delivery</span></div></div>
-      <div class="frame f3"><p class="lab">Streaming app</p><img src="img/h_stream.jpg" alt="Streaming app home screen with a featured show, continue watching and trending rows" width="428" height="926"></div>
+      <div class="frame f3"><p class="lab">Movie app</p><img src="img/h_stream.jpg" alt="Movie app home screen with a featured show, continue watching and trending rows" width="428" height="926"></div>
       <div class="curs" aria-hidden="true">
         <svg width="22" height="26" viewBox="0 0 13 20"><path d="M0 0 L0 17 L4.6 13 L7.6 20 L10 19 L7 12 L13 12 Z" fill="#2be46a" stroke="#04170b" stroke-width="1"/></svg>
         <span>Eyob</span>
@@ -309,16 +320,16 @@ a, .btn, .card, .step, .links a, .tools span, .ucard, .persona, .box { transitio
     <div class="feat">
       <a class="card wide" href="transport.html">
         <div class="in">
-          <div class="media"><img src="img/cover-card-transport.jpg" alt="Four screens of the Smart Public Transport App on a blue background" width="1600" height="615"></div>
+          <div class="media"><img src="img/cover-card-transport.jpg" alt="Four screens of the Smart Public Transport App on a blue background" width="1600" height="569"></div>
           <div class="body">
             <div class="idx"><b>01</b> · Mobile app · Transit</div>
             <h3>Smart Public Transport App</h3>
             <p>A mobile app for planning and following public transport trips. Designed in Figma across 35 screens, then built in React Native with Expo.</p>
-            <div class="meta">
+            <div class="aside"><div class="meta">
               <div><b>Role</b>UI/UX design, front-end build</div>
               <div><b>Scope</b>35 screens</div>
             </div>
-            <span class="more">Read the case study <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+            <span class="more">Read the case study <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></div>
           </div>
         </div>
       </a>
@@ -409,6 +420,8 @@ a, .btn, .card, .step, .links a, .tools span, .ucard, .persona, .box { transitio
       <p>Full files on <a href="https://www.figma.com/@eyobazeze" style="color:var(--accent)">Figma Community</a>.</p>
     </div>
     <ul class="archive">
+      <li><a href="https://www.figma.com/@eyobazeze"><span class="t">Food Delivery App</span><span class="k">Mobile · Food delivery</span><span class="y">Figma ↗</span></a></li>
+      <li><a href="https://www.figma.com/@eyobazeze"><span class="t">Movie App</span><span class="k">Mobile · Entertainment</span><span class="y">Figma ↗</span></a></li>
       <li><a href="https://www.figma.com/@eyobazeze"><span class="t">Educational App</span><span class="k">Mobile · Learning</span><span class="y">Figma ↗</span></a></li>
       <li><a href="https://www.figma.com/@eyobazeze"><span class="t">EdTech Platform for online learning</span><span class="k">Web · Learning</span><span class="y">Figma ↗</span></a></li>
       <li><a href="https://www.figma.com/@eyobazeze"><span class="t">Mobile Banking App</span><span class="k">Mobile · Fintech</span><span class="y">Figma ↗</span></a></li>
@@ -435,3 +448,30 @@ a, .btn, .card, .step, .links a, .tools span, .ucard, .persona, .box { transitio
     <p class="fine">Stats from my Figma profile, as of 15 Oct 2026.</p>
   </footer>
 </div>
+<script>/*fx*/
+(function () {
+  var rm = false; try { rm = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+  if (rm) return;
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("a[href]");
+    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+    var h = a.getAttribute("href");
+    if (!h || h.charAt(0) === "#" || /^(https?:|mailto:|tel:)/.test(h) || a.target === "_blank") return;
+    var page = h.split("#")[0], here = location.pathname.split("/").pop() || "index.html";
+    if (!page || page === here) return;
+    e.preventDefault(); document.body.classList.add("leaving");
+    setTimeout(function () { location.href = a.href; }, 200);
+  });
+  addEventListener("pageshow", function (e) { if (e.persisted) document.body.classList.remove("leaving"); });
+  try {
+    if ("IntersectionObserver" in window) {
+      var els = document.querySelectorAll("section .sec-head, .step, .persona, .ucard, .box, .job, .flowbox, .gal figure, .next, .contact");
+      var io = new IntersectionObserver(function (es) { es.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add("in"); io.unobserve(x.target); } }); }, { rootMargin: "0px 0px -8% 0px" });
+      els.forEach(function (el) { var r = el.getBoundingClientRect(); if (r.top > innerHeight) { el.classList.add("rv"); io.observe(el); } });
+    }
+  } catch (e) {}
+})();
+/*/fx*/</script>
+
+</body>
+</html>
