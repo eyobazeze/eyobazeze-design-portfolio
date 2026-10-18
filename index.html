@@ -1,5 +1,4 @@
 <title>Eyob Azeze Portfolio</title>
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -72,19 +71,19 @@ nav ul a:hover { color: var(--fg); }
 .hero p.lede { max-width: 48ch; color: var(--muted); font-size: 17px; margin: 24px 0 0; }
 .cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; align-items: center; }
 
-.stage { position: relative; width: 100%; max-width: 540px; justify-self: end; aspect-ratio: 540 / 560; }
+.stage { position: relative; width: 100%; max-width: 580px; justify-self: end; aspect-ratio: 540 / 560; }
 .frame { position: absolute; }
 .frame .lab { font: 400 11px var(--mono); color: var(--muted); margin: 0 0 8px 2px; white-space: nowrap; }
-.frame img { display: block; width: 100%; height: auto; border-radius: 20px; border: 1px solid rgba(236,242,237,.14); box-shadow: 0 24px 50px rgba(0,0,0,.5); background: var(--surface); }
-.f1 { left: 0; top: 14%; width: 33%; }
-.f2 { left: 30.5%; top: 2%; width: 38%; z-index: 2; }
-.f3 { left: 65%; top: 22%; width: 33%; }
+.frame img { display: block; width: 100%; height: auto; border-radius: 9px; border: 1px solid rgba(236,242,237,.14); box-shadow: 0 24px 50px rgba(0,0,0,.5); background: var(--surface); }
+.f1 { left: 0; top: 14%; width: 28.5%; }
+.f2 { left: 32.5%; top: 2%; width: 33.5%; z-index: 2; }
+.f3 { left: 70%; top: 22%; width: 28.5%; }
 .sel { position: absolute; inset: 22px -7px -7px -7px; border: 1.5px solid var(--accent); border-radius: 4px; pointer-events: none; }
 .sel i { position: absolute; width: 9px; height: 9px; background: #fff; border: 1.5px solid var(--accent); border-radius: 2px; }
 .sel i:nth-child(1) { left: -5px; top: -5px; } .sel i:nth-child(2) { right: -5px; top: -5px; }
 .sel i:nth-child(3) { left: -5px; bottom: -5px; } .sel i:nth-child(4) { right: -5px; bottom: -5px; }
 .sel-tag { position: absolute; left: 50%; bottom: -34px; transform: translateX(-50%); background: var(--accent); color: var(--accent-ink); font: 500 11px var(--mono); padding: 4px 10px; border-radius: 6px; white-space: nowrap; }
-.curs { position: absolute; right: 4%; bottom: 7%; z-index: 4; animation: roam 16s ease-in-out infinite alternate; }
+.curs { position: absolute; right: 9%; bottom: 0; z-index: 4; animation: roam 16s ease-in-out infinite alternate; }
 .curs svg { display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,.4)); }
 .curs span { position: absolute; left: 18px; top: 22px; background: var(--accent); color: var(--accent-ink); font: 500 11px var(--mono); padding: 3px 9px; border-radius: 4px 10px 10px 10px; }
 
@@ -116,14 +115,17 @@ section { padding: 80px 0 8px; position: relative; }
     linear-gradient(#fff,#fff) 100% 100% / 9px 9px no-repeat; }
 .card:hover::after, .card:hover::before, .card:focus-visible::after, .card:focus-visible::before { opacity: 1; }
 .card.wide { grid-column: span 12; }
-.card.wide .in { flex-direction: row; }
+.card.wide .in { flex-direction: column; }
 .card.half { grid-column: span 6; }
 .media { position: relative; background: var(--surface-2); overflow: hidden; }
 .media img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.card.wide .media { flex: 1.5 1 0; min-width: 0; }
+.card.wide .media { flex: none; min-width: 0; aspect-ratio: 1600 / 615; }
 .card.half .media { aspect-ratio: 16 / 9.4; }
 .body { padding: 24px 26px 26px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
-.card.wide .body { flex: 1 1 0; justify-content: center; padding: 34px; }
+.card.wide .body { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); column-gap: 48px; row-gap: 12px; align-items: start; padding: 26px 34px 28px; }
+.card.wide .body > * { grid-column: 1; }
+.card.wide .body .meta { grid-column: 2; grid-row: 2; align-self: end; }
+.card.wide .body .more { grid-column: 2; grid-row: 3; align-self: end; }
 .idx { font: 400 11px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
 .idx b { color: var(--accent); font-weight: 500; }
 .card h3 { font-size: 24px; line-height: 1.15; }
@@ -182,6 +184,8 @@ footer li em { color: var(--muted); font-style: normal; }
   .stat:nth-child(2) { border-right: 0; }
   .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
   .card.wide .in { flex-direction: column; }
+  .card.wide .body { display: flex; }
+  .card.wide .body > *, .card.wide .body .meta, .card.wide .body .more { grid-column: auto; grid-row: auto; }
   .card.half { grid-column: span 12; }
   .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 44px; }
   .flow::before { display: none; }
@@ -276,11 +280,11 @@ a, .btn, .card, .step, .links a, .tools span, .ucard, .persona, .box { transitio
       </div>
     </div>
 
-    <div class="stage" aria-label="Screens from the Smart Public Transport App">
-      <div class="frame f1"><p class="lab">Home</p><img src="img/t_home.jpg" alt="Smart Public Transport App home screen with a Plan My Trip button and recent trips" width="412" height="900"></div>
-      <div class="frame f2"><p class="lab">Route Planner</p><img src="img/t_route.jpg" alt="Route Planner screen with a route on the map and Taxi, Bus and Train tabs" width="412" height="900">
-        <div class="sel" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="sel-tag">Route Planner</span></div></div>
-      <div class="frame f3"><p class="lab">Live Map</p><img src="img/t_live.jpg" alt="Live Map screen showing buses and a busy area" width="411" height="900"></div>
+    <div class="stage" aria-label="Selected mobile UI screens">
+      <div class="frame f1"><p class="lab">Learning app</p><img src="img/h_learn.jpg" alt="Learning app home screen with a daily goal, a continue-learning card and a bottom tab bar" width="428" height="926"></div>
+      <div class="frame f2"><p class="lab">Food delivery</p><img src="img/h_food.jpg" alt="Food delivery app home screen with a promotion banner, food categories and popular restaurants" width="428" height="926">
+        <div class="sel" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="sel-tag">Food delivery</span></div></div>
+      <div class="frame f3"><p class="lab">Streaming app</p><img src="img/h_stream.jpg" alt="Streaming app home screen with a featured show, continue watching and trending rows" width="428" height="926"></div>
       <div class="curs" aria-hidden="true">
         <svg width="22" height="26" viewBox="0 0 13 20"><path d="M0 0 L0 17 L4.6 13 L7.6 20 L10 19 L7 12 L13 12 Z" fill="#2be46a" stroke="#04170b" stroke-width="1"/></svg>
         <span>Eyob</span>
@@ -304,7 +308,7 @@ a, .btn, .card, .step, .links a, .tools span, .ucard, .persona, .box { transitio
     <div class="feat">
       <a class="card wide" href="transport.html">
         <div class="in">
-          <div class="media"><img src="img/cover-transport.jpg" alt="Four screens of the Smart Public Transport App on a blue background" width="1600" height="803"></div>
+          <div class="media"><img src="img/cover-card-transport.jpg" alt="Four screens of the Smart Public Transport App on a blue background" width="1600" height="615"></div>
           <div class="body">
             <div class="idx"><b>01</b> · Mobile app · Transit</div>
             <h3>Smart Public Transport App</h3>
