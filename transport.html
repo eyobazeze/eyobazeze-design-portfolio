@@ -106,7 +106,7 @@ section { padding: 80px 0 0; }
   .build { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 700px) {
-  nav ul { display: none; }
+  nav ul { order: 3; width: 100%; justify-content: space-between; gap: 8px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 14px; }
   .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .meta div:nth-child(2) { border-right: 0; }
   .meta div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
