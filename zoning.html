@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <title>Land Use Zoning Visualizer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -193,7 +194,8 @@ section { padding: 80px 0 0; }
 .ux h3 { font-size: 21px; margin: 6px 0 8px; }
 .ux p { margin: 0; color: var(--muted); font-size: 15.5px; max-width: 52ch; }
 @media (max-width: 1000px) { .dsgrid { grid-template-columns: minmax(0,1fr); } .ux { grid-template-columns: minmax(0,1fr); } .ux div, .ux div:nth-child(even) { padding: 22px 0; border-left: 0; } }
-/*/dscss*//*fx*/
+/*/dscss*/.logo img { display: block; height: 44px; width: auto; }
+/*fx*/
 @keyframes pgin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 body { animation: pgin .45s cubic-bezier(.2,.7,.2,1) both; }
 body.leaving { opacity: 0; transform: translateY(-6px); transition: opacity .22s ease, transform .22s ease; }
@@ -217,7 +219,7 @@ addEventListener("pageshow", function () { window.scrollTo(0, 0); });
 </script>
 <div class="wrap">
   <nav aria-label="Main">
-    <a class="logo" href="index.html"><i></i>Eyob Azeze</a>
+    <a class="logo" href="index.html" aria-label="Eyob Azeze, home"><img src="logo.svg" alt="Eyob Azeze" width="44" height="44"></a>
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="index.html#work">Work</a></li>
@@ -310,8 +312,6 @@ addEventListener("pageshow", function () { window.scrollTo(0, 0); });
     <div class="acts"><a class="btn primary" href="index.html#work">Back to all work</a><a class="btn" href="index.html#contact">Get in touch</a></div>
   </div>
 </div>
-<script></script>
-<script></script>
 <script>/*fx*/
 (function () {
   var rm = false; try { rm = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}

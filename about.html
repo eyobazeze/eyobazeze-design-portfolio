@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <title>About Eyob Azeze</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -145,6 +146,7 @@ section { padding: 80px 0 0; }
 .contact .links { max-width: 560px; }
 @media (max-width: 1000px) { .grid2 { grid-template-columns: minmax(0,1fr); } }
 @media (max-width: 700px) { .job, .skrow { grid-template-columns: minmax(0,1fr); gap: 8px; } .contact { padding: 28px 24px; } }
+.logo img { display: block; height: 44px; width: auto; }
 /*fx*/
 @keyframes pgin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 body { animation: pgin .45s cubic-bezier(.2,.7,.2,1) both; }
@@ -169,7 +171,7 @@ addEventListener("pageshow", function () { window.scrollTo(0, 0); });
 </script>
 <div class="wrap">
   <nav aria-label="Main">
-    <a class="logo" href="index.html"><i></i>Eyob Azeze</a>
+    <a class="logo" href="index.html" aria-label="Eyob Azeze, home"><img src="logo.svg" alt="Eyob Azeze" width="44" height="44"></a>
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="index.html#work">Work</a></li>
@@ -216,8 +218,6 @@ addEventListener("pageshow", function () { window.scrollTo(0, 0); });
     </div>
   </div>
 </div>
-<script></script>
-<script></script>
 <script>/*fx*/
 (function () {
   var rm = false; try { rm = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}

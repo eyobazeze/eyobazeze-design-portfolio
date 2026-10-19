@@ -235,7 +235,8 @@ footer li em { color: var(--muted); font-style: normal; }
 .hds-ux span { font: 400 12px var(--mono); border: 1px solid rgba(43,228,106,.4); color: var(--accent); background: rgba(43,228,106,.06); border-radius: 999px; padding: 6px 14px; }
 @media (max-width: 1000px) { .hds-brands { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); } .hds-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } .hds-grid div, .hds-grid div + div { padding: 22px 18px 8px 0; border-left: 0; } .hds-grid div:nth-child(even) { padding-left: 18px; border-left: 1px solid var(--line); } }
 @media (max-width: 560px) { .hds-grid { grid-template-columns: minmax(0,1fr); } .hds-grid div:nth-child(even) { padding-left: 0; border-left: 0; } }
-/*/hdscss*//*fx*/
+/*/hdscss*/.logo img { display: block; height: 44px; width: auto; }
+/*fx*/
 @keyframes pgin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 body { animation: pgin .45s cubic-bezier(.2,.7,.2,1) both; }
 body.leaving { opacity: 0; transform: translateY(-6px); transition: opacity .22s ease, transform .22s ease; }
@@ -270,7 +271,7 @@ a, .btn, .card, .step, .links a, .tools span, .ucard, .persona, .box { transitio
 
 <div class="wrap">
   <nav aria-label="Main">
-    <a class="logo" href="#top"><i></i>Eyob Azeze</a>
+    <a class="logo" href="#top" aria-label="Eyob Azeze, home"><img src="logo.svg" alt="Eyob Azeze" width="44" height="44"></a>
     <ul>
       <li><a href="#top">Home</a></li>
       <li><a href="#work">Work</a></li>
